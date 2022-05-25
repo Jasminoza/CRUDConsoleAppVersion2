@@ -66,8 +66,8 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
         System.out.println("File developers.json does not exist. Do you want to create it? (y/n)");
 
         try (Scanner sc = new Scanner(System.in)) {
-            String choise = sc.next();
-            if (choise.equalsIgnoreCase("y")) {
+            String choice = sc.next();
+            if (choice.equalsIgnoreCase("y")) {
                 Files.createFile(filepath);
                 System.out.println("File developers.json created successfully.");
             }
