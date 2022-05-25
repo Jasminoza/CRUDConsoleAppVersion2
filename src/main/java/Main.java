@@ -1,12 +1,11 @@
 import repository.GsonDeveloperRepositoryImpl;
-import view.interfaces.GeneralView;
 
 import java.util.Scanner;
 
-public class Main implements GeneralView {
+public class Main {
     public static void main(String[] args) {
-        Main main = new Main();
-        main.init();
+        sayHello();
+        chooseFirstAction();
     }
 
     public static void sayHello() {
@@ -46,10 +45,5 @@ public class Main implements GeneralView {
         sc.close();
     }
 
-    @Override
-    public void init() {
-        sayHello();
-        chooseFirstAction();
-    }
 }
 
