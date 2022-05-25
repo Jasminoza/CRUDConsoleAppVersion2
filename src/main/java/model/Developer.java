@@ -1,19 +1,36 @@
 package model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Developer {
-    private int id;
+public class Developer implements Serializable {
+    private Long id;
     private String firstName;
     private String lastName;
     private List<Skill> skills;
     private Specialty specialty;
 
-    public int getId() {
+    public Developer() {
+        this.id = 0L;
+        this.firstName = null;
+        this.lastName = null;
+        this.skills = null;
+        this.specialty = null;
+    }
+
+    public Developer(Long id, String firstName, String lastName, List<Skill> skills, Specialty specialty) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.skills = skills;
+        this.specialty = specialty;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
