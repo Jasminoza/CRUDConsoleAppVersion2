@@ -9,14 +9,12 @@ public class Main {
     }
 
     public static void sayHello() {
-        System.out.println("""
-                \nHello, choose an action:
-                1. Show all Developers.\s
-                2. Show all Skills.\s
-                3. Show all Specialties.\s
-                4. Check connection to the file "developers.json."\s
-                0. exit the program.
-                """);
+        System.out.println("\nHello, choose an action:\n" +
+                "1. Show all Developers. \n" +
+                "2. Show all Skills. \n" +
+                "3. Show all Specialties. \n" +
+                "4. Check connection to the file \"developers.json.\" \n" +
+                "0. exit the program.\n");
     }
 
     public static void chooseFirstAction() {
@@ -31,10 +29,7 @@ public class Main {
                 case "1" -> System.out.println("Your choice is 1.");
                 case "2" -> System.out.println("Your choice is 2.");
                 case "3" -> System.out.println("Your choice is 3.");
-                case "4" -> {
-                    GsonDeveloperRepositoryImpl gsonDeveloperRepository = new GsonDeveloperRepositoryImpl();
-                    gsonDeveloperRepository.checkConnectionToRepositoryFile();
-                }
+                case "4" -> checkConnectionToFileDevelopersJson();
                 case "0" -> System.exit(0);
                 default -> {
                     System.out.println("Wrong input. Please, enter a digit from 0 to 4.");
@@ -45,5 +40,9 @@ public class Main {
         sc.close();
     }
 
+    public static void checkConnectionToFileDevelopersJson() {
+        GsonDeveloperRepositoryImpl gsonDeveloperRepository = new GsonDeveloperRepositoryImpl();
+        gsonDeveloperRepository.checkConnectionToRepositoryFile();
+    }
 }
 
