@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class GsonSkillRepositoryImpl implements SkillRepository {
 
@@ -24,12 +21,16 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
         Type targetClassType = new TypeToken<ArrayList<Skill>>() {
         }.getType();
         allSkills = new Gson().fromJson(json, targetClassType);
-
         return allSkills;
     }
 
     private void writeSkillsToFile(List<Skill> skills) {
-
+        String json = new Gson().toJson(skills);
+        try {
+            Files.writeString(Paths.get(SKILL_FILE_PATH), json);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Long generateNewMaxId(List<Skill> skills) {
@@ -54,11 +55,28 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     }
 
     public Skill update(Skill skill) {
-        return null;
+        List<Skill> allSkills = getAllSkills();
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Please, enter new name: ");
+        String name = sc.nextLine();
+
+        allSkills.stream()
+                .filter(s -> s.getId().equals(skill.getId()))
+                .forEach(s -> s.setName(name));
+        writeSkillsToFile(allSkills);
+
+        return skill;
     }
 
     public void delete(Long id) {
-
+        List<Skill> allSkills = getAllSkills();
+        if (allSkills.removeIf(skill -> skill.getId().equals(id))) {
+            System.out.println("Skill deleted successfully.");
+            writeSkillsToFile(allSkills);
+        } else {
+            System.out.println("Something went wrong. No such skill was found.");
+        }
     }
 
     public String getJsonCodeFromFile(String SKILL_FILE_PATH) {
