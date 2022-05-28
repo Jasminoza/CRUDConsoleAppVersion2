@@ -64,10 +64,9 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
 
     public void delete(Long id) {
         List<Skill> allSkills = getAllSkills();
-        List<Skill> filteredList = allSkills.stream().filter(skill -> !skill.getId().equals(id)).toList();
-        if (!filteredList.containsAll(allSkills)) {
+        if (allSkills.removeIf(skill -> skill.getId().equals(id))) {
             System.out.println("Skill deleted successfully.");
-            writeSkillsToFile(filteredList);
+            writeSkillsToFile(allSkills);
         } else {
             System.out.println("Something went wrong. No such skill was found.");
         }
