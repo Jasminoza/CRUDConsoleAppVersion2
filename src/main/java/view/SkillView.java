@@ -51,6 +51,11 @@ public class SkillView {
                 System.out.println("Please, enter correct id.");
             }
         }
+    }
 
+    public void getById() {
+        System.out.println("Please, enter number of skill you want to see: ");
+        Long id = scanner.nextLong();
+        skillController.getById(id);
     }
 }

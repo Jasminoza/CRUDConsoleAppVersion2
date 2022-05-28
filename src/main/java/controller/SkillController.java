@@ -25,4 +25,8 @@ public class SkillController {
     public void updateSkill(Long id) {
         skillRepository.update(skillRepository.getById(id));
     }
+
+    public void getById(Long id) {
+        System.out.println("id: " + skillRepository.getById(id).getId() + ", name: " + skillRepository.getById(id).getName() + ".");
+    }
 }
