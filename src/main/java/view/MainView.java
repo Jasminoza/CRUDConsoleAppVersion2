@@ -14,12 +14,14 @@ public class MainView {
                     \nHello. Enter a digit from the following:\s
                     1. to see all skills.\s
                     2. to add a skill.\s
+                    3. to delete a skill.\s
                     0. to exit the program.
                     """);
             choice = sc.nextLine();
             switch (choice) {
                 case "1" -> skillView.showAllSkills();
                 case "2" -> skillView.createSkill();
+                case "3" -> skillView.deleteSkill();
                 case "0" -> {
                     System.out.println("Goodbye.");
                     System.exit(0);

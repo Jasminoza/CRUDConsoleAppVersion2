@@ -24,4 +24,9 @@ public class SkillView {
                 forEach(a -> System.out.println(" id: " + a.getId() + ", name: " + a.getName()+ ";"));
         System.out.println("===============================");
     }
+
+    public void deleteSkill() {
+        System.out.println("Enter id number to delete skill from the list: ");
+        skillController.deleteSkill(Long.parseLong(scanner.nextLine()));
+    }
 }

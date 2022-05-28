@@ -17,4 +17,8 @@ public class SkillController {
     public List<Skill> getAllSkills() {
         return skillRepository.getAll();
     }
+
+    public void deleteSkill(Long id) {
+        skillRepository.delete(id);
+    }
 }

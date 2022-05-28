@@ -2,12 +2,12 @@ package repository.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import model.Developer;
 import model.Skill;
 import repository.SkillRepository;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
         Type targetClassType = new TypeToken<ArrayList<Skill>>() {
         }.getType();
         allSkills = new Gson().fromJson(json, targetClassType);
-
         return allSkills;
     }
 
@@ -64,7 +63,14 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     }
 
     public void delete(Long id) {
-
+        List<Skill> allSkills = getAllSkills();
+        List<Skill> filteredList = allSkills.stream().filter(skill -> !skill.getId().equals(id)).toList();
+        if (!filteredList.containsAll(allSkills)) {
+            System.out.println("Skill deleted successfully.");
+            writeSkillsToFile(filteredList);
+        } else {
+            System.out.println("Something went wrong. No such skill was found.");
+        }
     }
 
     public String getJsonCodeFromFile(String SKILL_FILE_PATH) {
