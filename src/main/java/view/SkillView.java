@@ -1,10 +1,19 @@
 package view;
 
-import view.interfaces.GeneralView;
+import controller.SkillController;
+import model.Skill;
 
-public class SkillView implements GeneralView {
-    @Override
-    public void init() {
-        System.out.println("Skill view.");
+import java.util.Scanner;
+
+public class SkillView {
+    private final Scanner scanner = new Scanner(System.in);
+
+    private final SkillController skillController = new SkillController();
+
+    public void createSkill() {
+        System.out.println("Enter name: ");
+        String name = scanner.nextLine();
+        Skill skill = skillController.createSkill(name);
+        System.out.println("Created skill: " + skill);
     }
 }

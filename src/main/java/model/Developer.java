@@ -1,21 +1,16 @@
 package model;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class Developer implements Serializable {
+public class Developer {
     private Long id;
     private String firstName;
     private String lastName;
     private List<Skill> skills;
     private Specialty specialty;
+    private Status status;
 
     public Developer() {
-        this.id = 0L;
-        this.firstName = null;
-        this.lastName = null;
-        this.skills = null;
-        this.specialty = null;
     }
 
     public Developer(Long id, String firstName, String lastName, List<Skill> skills, Specialty specialty) {
