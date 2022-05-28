@@ -7,6 +7,7 @@ import repository.SkillRepository;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -29,7 +30,12 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     }
 
     private void writeSkillsToFile(List<Skill> skills) {
-
+        String json = new Gson().toJson(skills);
+        try {
+            Files.writeString(Paths.get(SKILL_FILE_PATH), json);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Long generateNewMaxId(List<Skill> skills) {
