@@ -1,8 +1,14 @@
 package repository.gson;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import model.Skill;
 import repository.SkillRepository;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -10,10 +16,16 @@ import java.util.Objects;
 
 public class GsonSkillRepositoryImpl implements SkillRepository {
 
-    private final String SKILL_FILE_PATH = "";
+    private final String SKILL_FILE_PATH = "src/main/resources/skills.json";
 
     private List<Skill> getAllSkills() {
-        return new ArrayList<>();
+        ArrayList<Skill> allSkills;
+        String json = getJsonCodeFromFile(SKILL_FILE_PATH);
+        Type targetClassType = new TypeToken<ArrayList<Skill>>() {
+        }.getType();
+        allSkills = new Gson().fromJson(json, targetClassType);
+
+        return allSkills;
     }
 
     private void writeSkillsToFile(List<Skill> skills) {
@@ -25,12 +37,10 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
         return Objects.nonNull(maxSkill) ? maxSkill.getId() + 1 : 1L;
     }
 
-    @Override
     public List<Skill> getAll() {
         return getAllSkills();
     }
 
-    @Override
     public Skill create(Skill skill) {
         List<Skill> currentSkills = getAllSkills();
         skill.setId(generateNewMaxId(currentSkills));
@@ -39,18 +49,26 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
         return skill;
     }
 
-    @Override
     public Skill getById(Long id) {
         return getAllSkills().stream().filter(s -> s.getId().equals(id)).findFirst().orElse(null);
     }
 
-    @Override
     public Skill update(Skill skill) {
         return null;
     }
 
-    @Override
-    public void delete(Long aLong) {
+    public void delete(Long id) {
 
+    }
+
+    public String getJsonCodeFromFile(String SKILL_FILE_PATH) {
+        String jsonCode;
+        try {
+            jsonCode = Files.readString(Paths.get(SKILL_FILE_PATH));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//        System.out.println(jsonCode);
+        return jsonCode;
     }
 }

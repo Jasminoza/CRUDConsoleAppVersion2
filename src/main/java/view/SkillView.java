@@ -16,4 +16,11 @@ public class SkillView {
         Skill skill = skillController.createSkill(name);
         System.out.println("Created skill: " + skill);
     }
+
+    public void showAllSkills() {
+        System.out.println("Skills:\n===============================");
+        skillController.getAllSkills().
+                forEach(a -> System.out.println(" id: " + a.getId() + ", name: " + a.getName()+ ";"));
+        System.out.println("===============================");
+    }
 }
