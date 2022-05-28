@@ -2,7 +2,6 @@ package repository.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import model.Developer;
 import model.Skill;
 import repository.SkillRepository;
 
@@ -10,10 +9,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class GsonSkillRepositoryImpl implements SkillRepository {
 
@@ -59,7 +55,18 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     }
 
     public Skill update(Skill skill) {
-        return null;
+        List<Skill> allSkills = getAllSkills();
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Please, enter new name: ");
+        String name = sc.nextLine();
+
+        allSkills.stream()
+                .filter(s -> s.getId().equals(skill.getId()))
+                .forEach(s -> s.setName(name));
+        writeSkillsToFile(allSkills);
+
+        return skill;
     }
 
     public void delete(Long id) {

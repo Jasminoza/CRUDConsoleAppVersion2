@@ -15,6 +15,7 @@ public class MainView {
                     1. to see all skills.\s
                     2. to add a skill.\s
                     3. to delete a skill.\s
+                    4. to update a skill.\s
                     0. to exit the program.
                     """);
             choice = sc.nextLine();
@@ -22,6 +23,7 @@ public class MainView {
                 case "1" -> skillView.showAllSkills();
                 case "2" -> skillView.createSkill();
                 case "3" -> skillView.deleteSkill();
+                case "4" -> skillView.updateSkill();
                 case "0" -> {
                     System.out.println("Goodbye.");
                     System.exit(0);
