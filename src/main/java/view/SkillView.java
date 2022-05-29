@@ -44,8 +44,6 @@ public class SkillView {
                 System.out.println("Please, enter correct id.");
             }
         }
-
-
     }
 
     public void updateSkill() {

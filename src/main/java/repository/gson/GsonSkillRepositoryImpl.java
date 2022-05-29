@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class GsonSkillRepositoryImpl implements SkillRepository {
-
     private final String SKILL_FILE_PATH = "src/main/resources/skills.json";
 
     private List<Skill> getAllSkills() {
@@ -69,14 +68,13 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
         writeSkillsToFile(allSkills);
     }
 
-    public String getJsonCodeFromFile(String SKILL_FILE_PATH) {
+    private String getJsonCodeFromFile(String SKILL_FILE_PATH) {
         String jsonCode;
         try {
             jsonCode = Files.readString(Paths.get(SKILL_FILE_PATH));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        System.out.println(jsonCode);
         return jsonCode;
     }
 }

@@ -18,6 +18,8 @@ public class MainView {
                     3. to add a skill.\s
                     4. to delete a skill.\s
                     5. to update a skill.\s
+                    6. to see all specialties.\s
+                    7. to add a specialty.\s
                     0. to exit the program.
                     """);
             choice = sc.nextLine();
@@ -28,6 +30,7 @@ public class MainView {
                 case "4" -> skillView.deleteSkill();
                 case "5" -> skillView.updateSkill();
                 case "6" -> specialtyView.showAllSpecialties();
+                case "7" -> specialtyView.createSpecialty();
                 case "0" -> {
                     System.out.println("Goodbye.");
                     System.exit(0);
