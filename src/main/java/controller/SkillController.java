@@ -1,12 +1,13 @@
 package controller;
 
 import model.Skill;
+import repository.SkillRepository;
 import repository.gson.GsonSkillRepositoryImpl;
 
 import java.util.List;
 
 public class SkillController {
-    private final GsonSkillRepositoryImpl skillRepository = new GsonSkillRepositoryImpl();
+    private final SkillRepository skillRepository = new GsonSkillRepositoryImpl();
 
     public Skill createSkill(String name) {
         Skill skill = new Skill();
@@ -22,11 +23,12 @@ public class SkillController {
         skillRepository.delete(id);
     }
 
-    public void updateSkill(Skill skill) {
-        skillRepository.update(skill);
+    public Skill updateSkill(Long id, String name) {
+        Skill skill = new Skill(id, name);
+        return skillRepository.update(skill);
     }
 
-    public void getById(Long id) {
-        System.out.println("id: " + skillRepository.getById(id).getId() + ", name: " + skillRepository.getById(id).getName() + ".");
+    public Skill getById(Long id) {
+        return skillRepository.getById(id);
     }
 }

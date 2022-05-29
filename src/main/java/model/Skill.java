@@ -5,6 +5,11 @@ public class Skill {
     private Long id;
     private String name;
 
+    public Skill(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Skill() {
     }
 

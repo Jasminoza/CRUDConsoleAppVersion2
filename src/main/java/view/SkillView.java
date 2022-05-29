@@ -3,6 +3,7 @@ package view;
 import controller.SkillController;
 import model.Skill;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SkillView {
@@ -51,7 +52,7 @@ public class SkillView {
         Long id;
 
         showAllSkills();
-        System.out.println("Please, enter number of skill you want to update: ");
+        System.out.println("Please, enter id number of skill you want to update: ");
 
         while (!idIsCorrect) {
             try {
@@ -59,14 +60,9 @@ public class SkillView {
                 final Long finalId = id;
                 if (skillController.getAllSkills().stream().anyMatch(s -> s.getId().equals(finalId))) {
                     idIsCorrect = true;
-                    Skill skill = skillController.getAllSkills().stream()
-                            .filter(s -> s.getId().equals(finalId))
-                            .findFirst().orElse(null);
                     System.out.println("Please, enter new name: ");
                     String name = scanner.nextLine();
-                    skill.setName(name);
-
-                    skillController.updateSkill(skill);
+                    skillController.updateSkill(id, name);
                 } else {
                     System.out.println("There is no skill with such id. Please, try again.");
                 }
@@ -77,8 +73,26 @@ public class SkillView {
     }
 
     public void getById() {
+        boolean idIsCorrect = false;
+        Long id;
+        showAllSkills();
         System.out.println("Please, enter number of skill you want to see: ");
-        Long id = scanner.nextLong();
-        skillController.getById(id);
+
+        while (!idIsCorrect) {
+            try {
+                id = Long.parseLong(scanner.nextLine());
+                final Long finalId = id;
+                if (skillController.getAllSkills().stream().anyMatch(s -> s.getId().equals(finalId))) {
+                    idIsCorrect = true;
+                    System.out.println("id: " + skillController.getById(id).getId() + ", name: " + skillController.getById(id).getName() + ".");
+                } else {
+                    System.out.println("There is no skill with such id. Please, try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please, enter correct id.");
+            }
+        }
     }
+
+
 }

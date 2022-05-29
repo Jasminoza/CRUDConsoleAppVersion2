@@ -1,13 +1,14 @@
 package controller;
 
 import model.Specialty;
+import repository.SpecialtyRepository;
 import repository.gson.GsonSpecialtyRepositoryImpl;
 
 import java.util.List;
 
 public class SpecialtyController {
 
-    private final GsonSpecialtyRepositoryImpl specialtyRepository = new GsonSpecialtyRepositoryImpl();
+    private final SpecialtyRepository specialtyRepository = new GsonSpecialtyRepositoryImpl();
 
     public List<Specialty> getAllSpecialties(){
         return specialtyRepository.getAll();

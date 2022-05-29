@@ -20,4 +20,6 @@ public class SpecialtyView {
         String name = scanner.nextLine();
         specialtyController.createSpecialty(name);
     }
+
+
 }
