@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class MainView {
     private final SkillView skillView = new SkillView();
+    private final SpecialtyView specialtyView = new SpecialtyView();
     private final Scanner sc = new Scanner(System.in);
 
     public void mainMenu() {
@@ -26,6 +27,7 @@ public class MainView {
                 case "3" -> skillView.createSkill();
                 case "4" -> skillView.deleteSkill();
                 case "5" -> skillView.updateSkill();
+                case "6" -> specialtyView.showAllSpecialties();
                 case "0" -> {
                     System.out.println("Goodbye.");
                     System.exit(0);

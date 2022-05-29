@@ -43,7 +43,14 @@ public class SkillView {
                 final Long finalId = id;
                 if (skillController.getAllSkills().stream().anyMatch(s -> s.getId().equals(finalId))) {
                     idIsCorrect = true;
-                    skillController.updateSkill(id);
+                    Skill skill = skillController.getAllSkills().stream()
+                            .filter(s -> s.getId().equals(finalId))
+                            .findFirst().orElse(null);
+                    System.out.println("Please, enter new name: ");
+                    String name = scanner.nextLine();
+                    skill.setName(name);
+
+                    skillController.updateSkill(skill);
                 } else {
                     System.out.println("There is no skill with such id. Please, try again.");
                 }

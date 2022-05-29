@@ -16,12 +16,10 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     private final String SKILL_FILE_PATH = "src/main/resources/skills.json";
 
     private List<Skill> getAllSkills() {
-        ArrayList<Skill> allSkills;
         String json = getJsonCodeFromFile(SKILL_FILE_PATH);
         Type targetClassType = new TypeToken<ArrayList<Skill>>() {
         }.getType();
-        allSkills = new Gson().fromJson(json, targetClassType);
-        return allSkills;
+        return new Gson().fromJson(json, targetClassType);
     }
 
     private void writeSkillsToFile(List<Skill> skills) {
@@ -56,14 +54,10 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
 
     public Skill update(Skill skill) {
         List<Skill> allSkills = getAllSkills();
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("Please, enter new name: ");
-        String name = sc.nextLine();
 
         allSkills.stream()
                 .filter(s -> s.getId().equals(skill.getId()))
-                .forEach(s -> s.setName(name));
+                .forEach(s -> s.setName((skill.getName())));
         writeSkillsToFile(allSkills);
 
         return skill;

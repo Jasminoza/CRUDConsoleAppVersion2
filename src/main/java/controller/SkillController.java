@@ -22,8 +22,8 @@ public class SkillController {
         skillRepository.delete(id);
     }
 
-    public void updateSkill(Long id) {
-        skillRepository.update(skillRepository.getById(id));
+    public void updateSkill(Skill skill) {
+        skillRepository.update(skill);
     }
 
     public void getById(Long id) {
