@@ -24,7 +24,19 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
         return new Gson().fromJson(json, targetClassType);
     }
 
-    @Override
+    private void writeSpecialtiesToFile(List<Specialty> allSpecialties) {
+        String json = new Gson().toJson(allSpecialties);
+        try {
+            Files.writeString(Paths.get(SPECIALTY_FILE_PATH), json);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Long generateNewMaxId(List<Specialty> allSpecialties) {
+        Specialty maxIdSpecialty = allSpecialties.stream().max(Comparator.comparing(Specialty::getId)).orElse(null);
+        return (Objects.nonNull(maxIdSpecialty) ? maxIdSpecialty.getId() + 1 : 1L);
+    }
     public List<Specialty> getAll() {
         return getAllSpecialties();
     }
@@ -37,32 +49,25 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
         writeSpecialtiesToFile(allSpecialties);
         return specialty;
     }
-    private void writeSpecialtiesToFile(List<Specialty> allSpecialties) {
-        String json = new Gson().toJson(allSpecialties);
-        try {
-            Files.writeString(Paths.get(SPECIALTY_FILE_PATH), json);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public Long generateNewMaxId(List<Specialty> allSpecialties) {
-        Specialty maxIdSpecialty = allSpecialties.stream().max(Comparator.comparing(Specialty::getId)).orElse(null);
-        return (Objects.nonNull(maxIdSpecialty) ? maxIdSpecialty.getId() + 1 : 1L);
-    }
 
-    @Override
     public Specialty getById(Long id) {
-        return null;
+        return getAllSpecialties().stream().filter(sp  -> sp.getId().equals(id)).findFirst().orElse(null);
     }
 
-    @Override
     public Specialty update(Specialty specialty) {
-        return null;
+        List<Specialty> allSpecialties = getAllSpecialties();
+
+        allSpecialties.stream()
+                .filter(s -> s.getId().equals(specialty.getId()))
+                .forEach(s -> s.setName((specialty.getName())));
+        writeSpecialtiesToFile(allSpecialties);
+        return specialty;
     }
 
-    @Override
     public void delete(Long id) {
-
+        List<Specialty> allSpecialties = getAllSpecialties();
+        allSpecialties.removeIf(specialty -> specialty.getId().equals(id));
+        writeSpecialtiesToFile(allSpecialties);
     }
 
     private String getJsonCodeFromFile(String SPECIALTY_FILE_PATH) {

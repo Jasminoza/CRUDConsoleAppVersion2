@@ -13,23 +13,30 @@ public class MainView {
         while (!choice.equals("0")) {
             System.out.println("""
                     \nHello. Enter a digit from the following:\s
-                    1. to see all skills.\s
-                    2. to show skill by its id.\s
-                    3. to add a skill.\s
-                    4. to delete a skill.\s
-                    5. to update a skill.\s
-                    6. to see all specialties.\s
-                    7. to add a specialty.\s
+                    11. to see all skills.\s             21. to see all specialties.\s
+                    12. to show skill by its id.\s       22. to show specialty by its id.\s
+                    13. to add a skill.\s                23. to add a specialty.\s
+                    14. to delete a skill.\s             24. to delete a specialty.\s
+                    15. to update a skill.\s             25. to update a specialty.\s
+                    
                     0. to exit the program.
                     """);
             choice = sc.nextLine();
             switch (choice) {
-                case "1" -> skillView.showAllSkills();
-                case "2" -> skillView.getById();
-                case "3" -> skillView.createSkill();
-                case "4" -> skillView.deleteSkill();
-                case "5" -> skillView.updateSkill();
-                case "6" -> specialtyView.showAllSpecialties();
+                case "11" -> skillView.showAllSkills();
+                case "12" -> skillView.getById();
+                case "13" -> skillView.createSkill();
+                case "14" -> skillView.deleteSkill();
+                case "15" -> skillView.updateSkill();
+
+                case "21" -> specialtyView.showAllSpecialties();
+                case "22" -> specialtyView.getById();
+                case "23" -> specialtyView.createSpecialty();
+                case "24" -> specialtyView.deleteSpecialty();
+                case "25" -> specialtyView.updateSpecialty();
+
+
+
                 case "7" -> specialtyView.createSpecialty();
                 case "0" -> {
                     System.out.println("Goodbye.");

@@ -7,12 +7,7 @@ import repository.gson.GsonSpecialtyRepositoryImpl;
 import java.util.List;
 
 public class SpecialtyController {
-
     private final SpecialtyRepository specialtyRepository = new GsonSpecialtyRepositoryImpl();
-
-    public List<Specialty> getAllSpecialties(){
-        return specialtyRepository.getAll();
-    }
 
     public Specialty createSpecialty(String name) {
         Specialty specialty = new Specialty();
@@ -20,16 +15,21 @@ public class SpecialtyController {
         return specialtyRepository.create(specialty);
     }
 
+    public List<Specialty> getAllSpecialties() {
+        return specialtyRepository.getAll();
+    }
+
     public void deleteSpecialty(Long id) {
         specialtyRepository.delete(id);
     }
 
-    public Specialty updateSpecialty(Long id) {
-        return specialtyRepository.update(specialtyRepository.getById(id));
+    public Specialty updateSpecialty(Long id, String name) {
+        Specialty specialty = new Specialty(id, name);
+        return specialtyRepository.update(specialty);
     }
 
-    public void getSpecialtyById(Long id) {
-        System.out.println("id: " + specialtyRepository.getById(id).getId() + ", name: " + specialtyRepository.getById(id).getName() + ".");
+    public Specialty getById(Long id) {
+        return specialtyRepository.getById(id);
     }
 
 }

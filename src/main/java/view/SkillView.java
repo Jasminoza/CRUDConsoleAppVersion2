@@ -3,7 +3,6 @@ package view;
 import controller.SkillController;
 import model.Skill;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SkillView {

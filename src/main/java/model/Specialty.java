@@ -1,8 +1,11 @@
 package model;
 
-import java.io.Serializable;
-
 public class Specialty  {
+    public Specialty(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
