@@ -26,8 +26,26 @@ public class SkillView {
     }
 
     public void deleteSkill() {
+        boolean idIsCorrect = false;
+        Long id;
         System.out.println("Enter id number to delete skill from the list: ");
-        skillController.deleteSkill(Long.parseLong(scanner.nextLine()));
+
+        while (!idIsCorrect) {
+            try {
+                id = Long.parseLong(scanner.nextLine());
+                final Long finalId = id;
+                if (skillController.getAllSkills().stream().anyMatch(s -> s.getId().equals(finalId))) {
+                    idIsCorrect = true;
+                    skillController.deleteSkill(id);
+                } else {
+                    System.out.println("There is no skill with such id. Please, try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please, enter correct id.");
+            }
+        }
+
+
     }
 
     public void updateSkill() {

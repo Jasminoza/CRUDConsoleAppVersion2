@@ -1,1 +1,18 @@
-[{"id":1,"name":"write code"},{"id":2,"name":"write shit-code"},{"id":3,"name":"write godlike-code"},{"id":4,"name":"abrakadabra"}]
+[
+  {
+    "id": 1,
+    "name": "drink coffee"
+  },
+  {
+    "id": 2,
+    "name": "write shit-code"
+  },
+  {
+    "id": 3,
+    "name": "write godlike-code"
+  },
+  {
+    "id": 4,
+    "name": "abrakadabra"
+  }
+]
