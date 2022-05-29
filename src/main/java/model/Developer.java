@@ -13,12 +13,13 @@ public class Developer {
     public Developer() {
     }
 
-    public Developer(Long id, String firstName, String lastName, List<Skill> skills, Specialty specialty) {
+    public Developer(Long id, String firstName, String lastName, List<Skill> skills, Specialty specialty, Status status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.skills = skills;
         this.specialty = specialty;
+        this.status = Status.ACTIVE;
     }
 
     public Long getId() {
@@ -61,5 +62,11 @@ public class Developer {
         this.specialty = specialty;
     }
 
+    public Status getStatus() {
+        return status;
+    }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }
