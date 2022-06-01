@@ -25,11 +25,11 @@ public class MainView {
             choice = sc.nextLine();
             switch (choice) {
 
-//                case "1" -> developerView.showAllSkills();
+                case "1" -> developerView.showAllDevelopers();
 //                case "2" -> developerView.getById();
-//                case "3" -> developerView.createSkill();
-//                case "4" -> developerView.deleteSkill();
-//                case "5" -> developerView.updateSkill();
+                case "3" -> developerView.createDeveloper();
+//                case "4" -> developerView.deleteDeveloper();
+//                case "5" -> developerView.updateDeveloper();
 
                 case "11" -> skillView.showAllSkills();
                 case "12" -> skillView.getById();

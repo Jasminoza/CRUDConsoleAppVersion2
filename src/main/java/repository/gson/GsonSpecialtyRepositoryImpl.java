@@ -34,24 +34,34 @@ public class GsonSpecialtyRepositoryImpl implements SpecialtyRepository {
     }
 
     public Long generateNewMaxId(List<Specialty> allSpecialties) {
-        Specialty maxIdSpecialty = allSpecialties.stream().max(Comparator.comparing(Specialty::getId)).orElse(null);
+        Specialty maxIdSpecialty;
+        try {
+            maxIdSpecialty = allSpecialties.stream().max(Comparator.comparing(Specialty::getId)).orElse(null);
+        } catch (NullPointerException e) {
+            return 1L;
+        }
         return (Objects.nonNull(maxIdSpecialty) ? maxIdSpecialty.getId() + 1 : 1L);
     }
+
     public List<Specialty> getAll() {
         return getAllSpecialties();
     }
 
-    @Override
     public Specialty create(Specialty specialty) {
         List<Specialty> allSpecialties = getAllSpecialties();
         specialty.setId(generateNewMaxId(allSpecialties));
-        allSpecialties.add(specialty);
+        if (Objects.nonNull(allSpecialties)) {
+            allSpecialties.add(specialty);
+        } else {
+            allSpecialties = new ArrayList<>(1);
+            allSpecialties.add(specialty);
+        }
         writeSpecialtiesToFile(allSpecialties);
         return specialty;
     }
 
     public Specialty getById(Long id) {
-        return getAllSpecialties().stream().filter(sp  -> sp.getId().equals(id)).findFirst().orElse(null);
+        return getAllSpecialties().stream().filter(sp -> sp.getId().equals(id)).findFirst().orElse(null);
     }
 
     public Specialty update(Specialty specialty) {

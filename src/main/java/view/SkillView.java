@@ -3,6 +3,7 @@ package view;
 import controller.SkillController;
 import model.Skill;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class SkillView {
@@ -20,8 +21,10 @@ public class SkillView {
 
     public void showAllSkills() {
         System.out.println("Skills:\n===============================");
-        skillController.getAllSkills().
-                forEach(a -> System.out.println(" id: " + a.getId() + ", name: " + a.getName() + ";"));
+        if (Objects.nonNull(skillController.getAllSkills())) {
+            skillController.getAllSkills().
+                    forEach(a -> System.out.println(" id: " + a.getId() + ", name: " + a.getName() + ";"));
+        }
         System.out.println("===============================");
     }
 

@@ -35,7 +35,12 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
     }
 
     private Long generateNewMaxId(List<Developer> allDevelopers) {
-        Developer maxDeveloperId = allDevelopers.stream().max(Comparator.comparing(Developer::getId)).orElse(null);
+        Developer maxDeveloperId;
+        try {
+            maxDeveloperId = allDevelopers.stream().max(Comparator.comparing(Developer::getId)).orElse(null);
+        } catch (NullPointerException e) {
+            return 1L;
+        }
         return (Objects.nonNull(maxDeveloperId) ? maxDeveloperId.getId() + 1 : 1L);
     }
 
@@ -46,7 +51,12 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
     public Developer create(Developer developer) {
         List<Developer> allDevelopers = getAllDevelopers();
         developer.setId(generateNewMaxId(allDevelopers));
-        allDevelopers.add(developer);
+        if (Objects.nonNull(allDevelopers)) {
+            allDevelopers.add(developer);
+        } else {
+            allDevelopers = new ArrayList<>(1);
+            allDevelopers.add(developer);
+        }
         writeDevelopersToFile(allDevelopers);
         return developer;
     }

@@ -22,6 +22,14 @@ public class Developer {
         this.status = Status.ACTIVE;
     }
 
+    public Developer(Long id, String firstName, String lastName, List<Skill> skills, Specialty specialty) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.skills = skills;
+        this.specialty = specialty;
+    }
+
     public Long getId() {
         return id;
     }
