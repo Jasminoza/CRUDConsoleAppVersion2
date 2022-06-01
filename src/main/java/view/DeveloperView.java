@@ -7,10 +7,7 @@ import model.Skill;
 import model.Specialty;
 import model.Status;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class DeveloperView {
 
@@ -46,26 +43,24 @@ public class DeveloperView {
     }
 
     private List<Skill> addSkillsToList() {
-        if (skillController.getAllSkills().size() != 0) {
-
+        if (skillController.getAllSkills().size() == 0) {
+            System.out.println("Please, add some skills to skills list first, its empty.");
+            return null;
+        } else {
             boolean choiceIsOver = false;
-            boolean idIsCorrect;
-            Long id;
-            ArrayList<Skill> chosenSkills = new ArrayList<>();
+            HashMap<Long, Skill> chosenSkills = new HashMap<>();
             showAllSkills();
 
             while (!choiceIsOver) {
-                idIsCorrect = false;
                 System.out.println("Please, enter id number of skill you want to add: ");
-                while (!idIsCorrect)
+                while (true)
                     try {
-                        id = Long.parseLong(scanner.nextLine());
-                        final Long finalId = id;
-                        if (skillController.getAllSkills().stream().anyMatch(s -> s.getId().equals(finalId))) {
-                            idIsCorrect = true;
-
-                            if (chosenSkills.stream().filter(skill -> skill.getId().equals(finalId)).findAny().isEmpty()) {
-                                chosenSkills.add(skillController.getById(id));
+                        Long id = Long.parseLong(scanner.nextLine());
+                        if (skillController.getById(id) == null) {
+                            System.out.println("There is no skill with such id. Please, try again.");
+                        } else {
+                            if (!chosenSkills.containsKey(id)) {
+                                chosenSkills.put(id, skillController.getById(id));
                             } else {
                                 System.out.println("Chosen skill is already selected.");
                             }
@@ -74,17 +69,14 @@ public class DeveloperView {
                             if (answer.equalsIgnoreCase("no") || answer.equalsIgnoreCase("n")) {
                                 choiceIsOver = true;
                             }
-                        } else {
-                            System.out.println("There is no skill with such id. Please, try again.");
+                            break;
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Please, enter correct id.");
                     }
             }
-            return chosenSkills.subList(0, chosenSkills.size() - 1);
-        } else {
-            System.out.println("Please, add some skills to skills list first, its empty.");
-        } return null;
+            return chosenSkills.values().stream().toList();
+        }
     }
 
     private Specialty chooseSpecialty() {
