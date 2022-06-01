@@ -3,6 +3,7 @@ package controller;
 import model.Developer;
 import model.Skill;
 import model.Specialty;
+import model.Status;
 import repository.DeveloperRepository;
 import repository.gson.GsonDeveloperRepositoryImpl;
 
@@ -12,12 +13,13 @@ public class DeveloperController {
 
     private final DeveloperRepository developerRepository = new GsonDeveloperRepositoryImpl();
 
-    public Developer createDeveloper(String firstName, String lastName, List<Skill> skills, Specialty specialty) {
+    public Developer createDeveloper(String firstName, String lastName, List<Skill> skills, Specialty specialty,Status status) {
         Developer developer = new Developer();
         developer.setFirstName(firstName);
         developer.setLastName(lastName);
         developer.setSkills(skills);
         developer.setSpecialty(specialty);
+        developer.setStatus(Status.ACTIVE);
         return developerRepository.create(developer);
     }
 

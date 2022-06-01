@@ -26,10 +26,10 @@ public class MainView {
             switch (choice) {
 
                 case "1" -> developerView.showAllDevelopers();
-//                case "2" -> developerView.getById();
+                case "2" -> developerView.getById();
                 case "3" -> developerView.createDeveloper();
-//                case "4" -> developerView.deleteDeveloper();
-//                case "5" -> developerView.updateDeveloper();
+                case "4" -> developerView.deleteDeveloper();
+                case "5" -> developerView.updateDeveloper();
 
                 case "11" -> skillView.showAllSkills();
                 case "12" -> skillView.getById();

@@ -5,6 +5,7 @@ import controller.SkillController;
 import controller.SpecialtyController;
 import model.Skill;
 import model.Specialty;
+import model.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,62 +17,74 @@ public class DeveloperView {
     private final DeveloperController developerController = new DeveloperController();
     private final SkillController skillController = new SkillController();
     private final SpecialtyController specialtyController = new SpecialtyController();
-    private final Scanner sc = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     public void createDeveloper() {
         System.out.println("Enter developer's first name: ");
-        String firstname = sc.nextLine();
+        String firstname = scanner.nextLine();
         System.out.println("Enter developer's last name: ");
-        String lastname = sc.nextLine();
+        String lastname = scanner.nextLine();
         System.out.println("Enter id of skill you want to add: ");
         List<Skill> skills = addSkillsToList();
         System.out.println("Enter id of specialty you want to add: ");
         Specialty specialty = chooseSpecialty();
-        developerController.createDeveloper(firstname, lastname, skills, specialty);
+        Status status = Status.ACTIVE;
+        developerController.createDeveloper(firstname, lastname, skills, specialty, status);
     }
 
-    private void showAllSkills() {
-        System.out.println("Skills:\n===============================");
-        skillController.getAllSkills().
-                forEach(a -> System.out.println(" id: " + a.getId() + ", name: " + a.getName() + ";"));
-        System.out.println("===============================");
+    public void showAllSkills() {
+
+        if (skillController.getAllSkills().size() != 0) {
+            System.out.println("Skills:\n===============================");
+            skillController.getAllSkills().
+                    forEach(skill -> System.out.println(" id: " + skill.getId() + ", name: " + skill.getName() + ";"));
+            System.out.println("===============================");
+        } else {
+            System.out.println("Skill list is empty.");
+        }
+
     }
 
     private List<Skill> addSkillsToList() {
-        boolean choiceIsOver = false;
-        boolean idIsCorrect;
-        Long id;
-        ArrayList<Skill> chosenSkills = new ArrayList<>();
-        showAllSkills();
+        if (skillController.getAllSkills().size() != 0) {
 
-        while (!choiceIsOver) {
-            idIsCorrect = false;
-            System.out.println("Please, enter id number of skill you want to add: ");
-            while (!idIsCorrect)
-                try {
-                    id = Long.parseLong(sc.nextLine());
-                    final Long finalId = id;
-                    if (skillController.getAllSkills().stream().anyMatch(s -> s.getId().equals(finalId))) {
-                        idIsCorrect = true;
+            boolean choiceIsOver = false;
+            boolean idIsCorrect;
+            Long id;
+            ArrayList<Skill> chosenSkills = new ArrayList<>();
+            showAllSkills();
 
-                        if (!chosenSkills.contains(skillController.getById(id))) {
-                            chosenSkills.add(skillController.getById(id));
+            while (!choiceIsOver) {
+                idIsCorrect = false;
+                System.out.println("Please, enter id number of skill you want to add: ");
+                while (!idIsCorrect)
+                    try {
+                        id = Long.parseLong(scanner.nextLine());
+                        final Long finalId = id;
+                        if (skillController.getAllSkills().stream().anyMatch(s -> s.getId().equals(finalId))) {
+                            idIsCorrect = true;
+
+                            if (chosenSkills.stream().filter(skill -> skill.getId().equals(finalId)).findAny().isEmpty()) {
+                                chosenSkills.add(skillController.getById(id));
+                            } else {
+                                System.out.println("Chosen skill is already selected.");
+                            }
+                            System.out.println("Do you want to add another skill? (y/n)");
+                            String answer = scanner.nextLine();
+                            if (answer.equalsIgnoreCase("no") || answer.equalsIgnoreCase("n")) {
+                                choiceIsOver = true;
+                            }
                         } else {
-                            System.out.println("Chosen skill is already selected.");
+                            System.out.println("There is no skill with such id. Please, try again.");
                         }
-                        System.out.println("Do you want to add another skill? (y/n)");
-                        String answer = sc.nextLine();
-                        if (answer.equalsIgnoreCase("no") || answer.equalsIgnoreCase("n")) {
-                            choiceIsOver = true;
-                        }
-                    } else {
-                        System.out.println("There is no skill with such id. Please, try again.");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Please, enter correct id.");
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("Please, enter correct id.");
-                }
-        }
-        return chosenSkills.subList(0, chosenSkills.size() - 1);
+            }
+            return chosenSkills.subList(0, chosenSkills.size() - 1);
+        } else {
+            System.out.println("Please, add some skills to skills list first, its empty.");
+        } return null;
     }
 
     private Specialty chooseSpecialty() {
@@ -82,7 +95,7 @@ public class DeveloperView {
         System.out.println("Please, enter id number of specialty you want to choose: ");
         while (!idIsCorrect) {
             try {
-                id = Long.parseLong(sc.nextLine());
+                id = Long.parseLong(scanner.nextLine());
                 final Long finalId = id;
                 if (specialtyController.getAllSpecialties().stream().anyMatch(s -> s.getId().equals(finalId))) {
                     idIsCorrect = true;
@@ -98,20 +111,86 @@ public class DeveloperView {
     }
 
     public void showAllSpecialties() {
-        System.out.println("Specialties:\n===============================");
-        specialtyController.getAllSpecialties()
-                .forEach(skill -> System.out.println("id: " + skill.getId() + ", name: " + skill.getName()));
-        System.out.println("===============================");
+        if (specialtyController.getAllSpecialties().size() != 0) {
+            System.out.println("Specialties:\n===============================");
+            specialtyController.getAllSpecialties()
+                    .forEach(spec -> System.out.println("id: " + spec.getId() + ", name: " + spec.getName()));
+            System.out.println("===============================");
+        } else {
+            System.out.println("Specialties list is empty.");
+        }
     }
 
     public void showAllDevelopers() {
-        System.out.println("Developers:\n===============================");
+
         if (Objects.nonNull(developerController.getAllDevelopers())) {
+            System.out.println("Developers:\n=============================================================================================");
             developerController.getAllDevelopers()
                     .forEach(dev -> System.out.println("id: " + dev.getId() + ", first name: " + dev.getFirstName()
-                            + " last name: " + dev.getLastName()));
+                            + ", last name: " + dev.getLastName() + ", skills: " + dev.showSkills(dev.getSkills())
+                            + "specialty: " + dev.getSpecialty().getName() + ", status: " + dev.getStatus().toString()));
+            System.out.println("=============================================================================================");
+        } else {
+            System.out.println("Developers list is empty.");
         }
-        System.out.println("===============================");
+    }
+
+    public void deleteDeveloper() {
+        boolean idIsCorrect = false;
+        Long id;
+        if (Objects.nonNull(developerController.getAllDevelopers())) {
+            System.out.println("Enter id number to delete developer from the list: ");
+            while (!idIsCorrect) {
+                try {
+                    id = Long.parseLong(scanner.nextLine());
+                    final Long finalId = id;
+                    if (developerController.getAllDevelopers().stream().anyMatch(s -> s.getId().equals(finalId))) {
+                        idIsCorrect = true;
+                        developerController.deleteDeveloper(id);
+                    } else {
+                        System.out.println("There is no developer with such id. Please, try again.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Please, enter correct id.");
+                }
+            }
+        } else {
+            System.out.println("Developers list is empty.");
+        }
+    }
+
+    public void updateDeveloper() {
+
+    }
+
+    public void getById() {
+        boolean idIsCorrect = false;
+        Long id;
+
+        if (Objects.nonNull(developerController.getAllDevelopers())) {
+            showAllDevelopers();
+            System.out.println("Please, enter the ID of the developer you want to view: ");
+
+            while (!idIsCorrect) {
+                try {
+                    id = Long.parseLong(scanner.nextLine());
+                    final Long finalId = id;
+                    if (developerController.getAllDevelopers().stream().anyMatch(s -> s.getId().equals(finalId))) {
+                        idIsCorrect = true;
+                        System.out.println("id: " + developerController.getById(id).getId() + ", first name: " + developerController.getById(id).getFirstName()
+                                + ", last name: " + developerController.getById(id).getLastName() + ", skills: " + developerController.getById(id).showSkills(developerController.getById(id).getSkills())
+                                + "specialty: " + developerController.getById(id).getSpecialty().getName() + ", status: " + developerController.getById(id).getStatus().toString());
+                    } else {
+                        System.out.println("There is no developer with such id. Please, try again.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Please, enter correct id.");
+                }
+            }
+        } else {
+            System.out.println("Developers list is empty.");
+        }
     }
 }
+
 

@@ -1,0 +1,1 @@
+[{"id":3,"firstName":"Slava","lastName":"Slavin","skills":[{"id":1,"name":"godlike-coding"},{"id":2,"name":"drink coffee"}],"specialty":{"id":3,"name":"Python"},"status":"ACTIVE"},{"id":4,"firstName":"Java","lastName":"Semenovna","skills":[{"id":1,"name":"godlike-coding"}],"specialty":{"id":4,"name":"c++"},"status":"ACTIVE"}]

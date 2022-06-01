@@ -14,7 +14,7 @@ public class SpecialtyView {
         if (specialtyController.getAllSpecialties().size() != 0) {
             System.out.println("Specialties:\n===============================");
             specialtyController.getAllSpecialties()
-                    .forEach(skill -> System.out.println("id: " + skill.getId() + ", name: " + skill.getName()));
+                    .forEach(s -> System.out.println("id: " + s.getId() + ", name: " + s.getName()));
             System.out.println("===============================");
         } else {
             System.out.println("Specialties list is empty.");

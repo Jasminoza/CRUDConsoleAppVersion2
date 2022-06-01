@@ -57,6 +57,14 @@ public class Developer {
     public List<Skill> getSkills() {
         return skills;
     }
+    public String showSkills(List<Skill> skillsList) {
+        StringBuilder str = new StringBuilder();
+        for (Skill skill : skillsList) {
+            str.append(skill.getName());
+            str.append("; ");
+        }
+        return str.toString();
+    }
 
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
