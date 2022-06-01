@@ -8,6 +8,7 @@ import model.Specialty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class DeveloperView {
@@ -105,9 +106,11 @@ public class DeveloperView {
 
     public void showAllDevelopers() {
         System.out.println("Developers:\n===============================");
-        developerController.getAllDevelopers()
-                .forEach(dev -> System.out.println("id: " + dev.getId() + ", first name: " + dev.getFirstName()
-                + " last name: " + dev.getLastName()));
+        if (Objects.nonNull(developerController.getAllDevelopers())) {
+            developerController.getAllDevelopers()
+                    .forEach(dev -> System.out.println("id: " + dev.getId() + ", first name: " + dev.getFirstName()
+                            + " last name: " + dev.getLastName()));
+        }
         System.out.println("===============================");
     }
 }
