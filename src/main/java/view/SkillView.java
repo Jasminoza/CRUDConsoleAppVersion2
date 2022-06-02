@@ -3,7 +3,6 @@ package view;
 import controller.SkillController;
 import model.Skill;
 
-import java.util.Objects;
 import java.util.Scanner;
 
 public class SkillView {
@@ -21,7 +20,7 @@ public class SkillView {
 
     public void showAllSkills() {
 
-        if (skillController.getAllSkills().size() != 0) {
+        if (skillController.getAllSkills() != null && skillController.getAllSkills().size() != 0) {
             System.out.println("Skills:\n===============================");
             skillController.getAllSkills().
                     forEach(a -> System.out.println(" id: " + a.getId() + ", name: " + a.getName() + ";"));
@@ -35,7 +34,7 @@ public class SkillView {
     public void deleteSkill() {
         boolean idIsCorrect = false;
         Long id;
-        if (skillController.getAllSkills().size() != 0) {
+        if (skillController.getAllSkills() != null && skillController.getAllSkills().size() != 0) {
             System.out.println("Enter id number to delete skill from the list: ");
 
             while (!idIsCorrect) {
@@ -61,7 +60,7 @@ public class SkillView {
         boolean idIsCorrect = false;
         Long id;
 
-        if (skillController.getAllSkills().size() != 0) {
+        if (skillController.getAllSkills() != null && skillController.getAllSkills().size() != 0) {
 
             showAllSkills();
             System.out.println("Please, enter id number of skill you want to update: ");
@@ -91,7 +90,7 @@ public class SkillView {
         boolean idIsCorrect = false;
         Long id;
 
-        if (skillController.getAllSkills().size() != 0) {
+        if (skillController.getAllSkills() != null && skillController.getAllSkills().size() != 0) {
 
             showAllSkills();
             System.out.println("Please, enter number of skill you want to see: ");

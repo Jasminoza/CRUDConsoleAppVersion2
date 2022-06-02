@@ -7,7 +7,9 @@ import model.Skill;
 import model.Specialty;
 import model.Status;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 
 public class DeveloperView {
 
@@ -15,6 +17,8 @@ public class DeveloperView {
     private final SkillController skillController = new SkillController();
     private final SpecialtyController specialtyController = new SpecialtyController();
     private final Scanner scanner = new Scanner(System.in);
+    private final SkillView skillView = new SkillView();
+    private final SpecialtyView specialtyView = new SpecialtyView();
 
     public void createDeveloper() {
         System.out.println("Enter developer's first name: ");
@@ -29,31 +33,18 @@ public class DeveloperView {
         developerController.createDeveloper(firstname, lastname, skills, specialty, status);
     }
 
-    public void showAllSkills() {
-
-        if (skillController.getAllSkills().size() != 0) {
-            System.out.println("Skills:\n===============================");
-            skillController.getAllSkills().
-                    forEach(skill -> System.out.println(" id: " + skill.getId() + ", name: " + skill.getName() + ";"));
-            System.out.println("===============================");
-        } else {
-            System.out.println("Skill list is empty.");
-        }
-
-    }
-
     private List<Skill> addSkillsToList() {
-        if (skillController.getAllSkills().size() == 0) {
+        if (skillController.getAllSkills() == null && skillController.getAllSkills().size() == 0) {
             System.out.println("Please, add some skills to skills list first, its empty.");
             return null;
         } else {
             boolean choiceIsOver = false;
             HashMap<Long, Skill> chosenSkills = new HashMap<>();
-            showAllSkills();
+            skillView.showAllSkills();
 
             while (!choiceIsOver) {
                 System.out.println("Please, enter id number of skill you want to add: ");
-                while (true)
+                while (true) {
                     try {
                         Long id = Long.parseLong(scanner.nextLine());
                         if (skillController.getById(id) == null) {
@@ -74,6 +65,7 @@ public class DeveloperView {
                     } catch (NumberFormatException e) {
                         System.out.println("Please, enter correct id.");
                     }
+                }
             }
             return chosenSkills.values().stream().toList();
         }
@@ -83,7 +75,7 @@ public class DeveloperView {
         boolean idIsCorrect = false;
         Long id;
 
-        showAllSpecialties();
+        specialtyView.showAllSpecialties();
         System.out.println("Please, enter id number of specialty you want to choose: ");
         while (!idIsCorrect) {
             try {
@@ -102,20 +94,8 @@ public class DeveloperView {
         return null;
     }
 
-    public void showAllSpecialties() {
-        if (specialtyController.getAllSpecialties().size() != 0) {
-            System.out.println("Specialties:\n===============================");
-            specialtyController.getAllSpecialties()
-                    .forEach(spec -> System.out.println("id: " + spec.getId() + ", name: " + spec.getName()));
-            System.out.println("===============================");
-        } else {
-            System.out.println("Specialties list is empty.");
-        }
-    }
-
     public void showAllDevelopers() {
-
-        if (Objects.nonNull(developerController.getAllDevelopers())) {
+        if (developerController.getAllDevelopers() != null && developerController.getAllDevelopers().size() != 0) {
             System.out.println("Developers:\n=============================================================================================");
             developerController.getAllDevelopers()
                     .forEach(dev -> System.out.println("id: " + dev.getId() + ", first name: " + dev.getFirstName()
@@ -130,7 +110,7 @@ public class DeveloperView {
     public void deleteDeveloper() {
         boolean idIsCorrect = false;
         Long id;
-        if (Objects.nonNull(developerController.getAllDevelopers())) {
+        if (developerController.getAllDevelopers() != null && developerController.getAllDevelopers().size() != 0) {
             System.out.println("Enter id number to delete developer from the list: ");
             while (!idIsCorrect) {
                 try {
@@ -152,6 +132,11 @@ public class DeveloperView {
     }
 
     public void updateDeveloper() {
+        if (developerController.getAllDevelopers() != null && developerController.getAllDevelopers().size() != 0) {
+            System.out.println("There is no developer with such id. Please, try again.");
+        } else {
+
+        }
 
     }
 
@@ -159,7 +144,7 @@ public class DeveloperView {
         boolean idIsCorrect = false;
         Long id;
 
-        if (Objects.nonNull(developerController.getAllDevelopers())) {
+        if (developerController.getAllDevelopers() != null && developerController.getAllDevelopers().size() != 0) {
             showAllDevelopers();
             System.out.println("Please, enter the ID of the developer you want to view: ");
 

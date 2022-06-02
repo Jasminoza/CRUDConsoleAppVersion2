@@ -1,1 +1,1 @@
-[]
+[{"id":1,"firstName":"senya","lastName":"kamushkin","skills":[{"id":1,"name":"coffee"},{"id":2,"name":"code"}],"specialty":{"id":1,"name":"Java"},"status":"DELETED"},{"id":2,"firstName":"s","lastName":"xcv","skills":[{"id":1,"name":"coffee"},{"id":2,"name":"code"}],"specialty":{"id":1,"name":"Java"},"status":"ACTIVE"}]

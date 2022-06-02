@@ -11,7 +11,7 @@ public class SpecialtyView {
 
     public void showAllSpecialties() {
 
-        if (specialtyController.getAllSpecialties().size() != 0) {
+        if (specialtyController.getAllSpecialties() != null && specialtyController.getAllSpecialties().size() != 0) {
             System.out.println("Specialties:\n===============================");
             specialtyController.getAllSpecialties()
                     .forEach(s -> System.out.println("id: " + s.getId() + ", name: " + s.getName()));
@@ -33,7 +33,7 @@ public class SpecialtyView {
         boolean idIsCorrect = false;
         Long id;
 
-        if (specialtyController.getAllSpecialties().size() != 0) {
+        if (specialtyController.getAllSpecialties() != null && specialtyController.getAllSpecialties().size() != 0) {
             System.out.println("Enter id number to delete specialty from the list: ");
 
             while (!idIsCorrect) {
@@ -59,7 +59,7 @@ public class SpecialtyView {
         boolean idIsCorrect = false;
         Long id;
 
-        if (specialtyController.getAllSpecialties().size() != 0) {
+        if (specialtyController.getAllSpecialties() != null && specialtyController.getAllSpecialties().size() != 0) {
             showAllSpecialties();
             System.out.println("Please, enter id number of specialty you want to update: ");
 
@@ -88,7 +88,7 @@ public class SpecialtyView {
         boolean idIsCorrect = false;
         Long id;
 
-        if (specialtyController.getAllSpecialties().size() != 0) {
+        if (specialtyController.getAllSpecialties() != null && specialtyController.getAllSpecialties().size() != 0) {
 
             showAllSpecialties();
             System.out.println("Please, enter number of specialty you want to see: ");
