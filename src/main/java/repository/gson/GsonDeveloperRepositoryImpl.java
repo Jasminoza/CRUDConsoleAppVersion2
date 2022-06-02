@@ -71,12 +71,13 @@ public class GsonDeveloperRepositoryImpl implements DeveloperRepository {
         allDevelopers.stream()
                 .filter(d -> d.getId().equals(developer.getId()))
                 .forEach(d -> {
+                    d.setId(developer.getId());
                     d.setFirstName(developer.getFirstName());
                     d.setLastName(developer.getLastName());
-                    //TODO: подумать как реализовать добавление листа скиллов
+                    d.setSkills(developer.getSkills());
                     d.setSpecialty(developer.getSpecialty());
                 });
-
+        writeDevelopersToFile(allDevelopers);
         return developer;
     }
 

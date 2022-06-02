@@ -90,7 +90,7 @@ public class SkillView {
         boolean idIsCorrect = false;
         Long id;
 
-        if (skillController.getAllSkills() != null && skillController.getAllSkills().size() != 0) {
+        if (skillController.getAllSkills().size() != 0 && skillController.getAllSkills() != null) {
 
             showAllSkills();
             System.out.println("Please, enter number of skill you want to see: ");
