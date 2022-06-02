@@ -19,7 +19,7 @@ public class Developer {
         this.lastName = lastName;
         this.skills = skills;
         this.specialty = specialty;
-        this.status = Status.ACTIVE;
+        this.status = status;
     }
 
     public Developer(Long id, String firstName, String lastName, List<Skill> skills, Specialty specialty) {

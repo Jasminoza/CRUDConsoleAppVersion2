@@ -19,7 +19,7 @@ public class DeveloperController {
         developer.setLastName(lastName);
         developer.setSkills(skills);
         developer.setSpecialty(specialty);
-        developer.setStatus(Status.ACTIVE);
+        developer.setStatus(status);
         return developerRepository.create(developer);
     }
 

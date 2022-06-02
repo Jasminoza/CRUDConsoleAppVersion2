@@ -77,7 +77,6 @@ public class DeveloperView {
 
         if (specialtyController.getAllSpecialties() == null && specialtyController.getAllSpecialties().size() == 0) {
             System.out.println("Please, add some skills to skills list first, its empty.");
-            return null;
         } else {
             specialtyView.showAllSpecialties();
             System.out.println("Please, enter id number of specialty you want to choose: ");
@@ -95,8 +94,8 @@ public class DeveloperView {
                     System.out.println("Please, enter correct id.");
                 }
             }
-            return null;
         }
+        return null;
     }
 
     public void showAllDevelopers() {
