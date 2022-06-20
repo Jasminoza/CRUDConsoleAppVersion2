@@ -1,32 +1,19 @@
 ## **Задача**: 
-##### Необходимо реализовать консольное CRUD приложение, которое имеет следующие сущности:
+##### Необходимо реализовать консольное CRUD приложение, которое взаимодействует с БД и позволяет выполнять все CRUD операции над сущностями:
 
 * ###### Developer (id, firstName, lastName, List<Skill> skills, Specialty specialty)
 * ###### Skill
 * ###### Specialty
 * ###### Status (enum ACTIVE, DELETED)
 
-##### В качестве хранилища данных необходимо использовать json файлы:
-
-1. ###### developers.json
-2. ###### skills.json
-3. ###### specialties.json
-
 Пользователь в консоли должен иметь возможность создания, получения, редактирования и удаления данных.
 
-##### Слои:
+##### Требования:
 
-* ###### model - POJO классы
-* ###### repository - классы, реализующие доступ к текстовым файлам
-* ###### controller - обработка запросов от пользователя
-* ###### view - все данные, необходимые для работы с консолью
+1. ###### Придерживаться шаблона MVC (пакеты model, repository, service, controller, view)
+2. ###### Для миграции БД использовать https://www.liquibase.org/
+3. ###### Сервисный слой приложения должен быть покрыт юнит тестами (junit + mockito).
+4. ###### Для импорта библиотек использовать Maven
 
-Например: Developer, DeveloperRepository, DeveloperController, DeveloperView и т.д.
-
-Для репозиторного слоя желательно использовать базовый интерфейс:
-interface GenericRepository<T,ID>
-
-interface DeveloperRepository extends GenericRepository<Developer, Long>
-
-class GsonDeveloperRepositoryImpl implements DeveloperRepository
+## Технологии: Java, MySQL, JDBC, Maven, Liquibase, JUnit, Mockito.
 
