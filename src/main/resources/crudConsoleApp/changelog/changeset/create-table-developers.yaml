@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+    id: create-table-developers
+    author: YolkinNV
+    changes:
+      - createTable:
+        tableName: developers
+        columns:
+          - column:
+              name: id
+              type: int
+              constrains:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: firstName
+              type: varchar(50)
+          - column:
+              name: lastName
+              type: varchar(50)
+          - column:
+              name:

@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+    id: create-table-specialties
+    author: YolkinNV
+    changes:
+      - createTable:
+        tableName: specialties
+        columns:
+          - column:
+              name: id
+              type: int
+              constrains:
+                primaryKey: true
+                nullable: false
+          - column:
+              name: name
+              type: varchar(50)

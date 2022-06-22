@@ -1,1 +1,18 @@
-[{"id":1,"name":"Java"},{"id":2,"name":"SQL"},{"id":3,"name":"Python"},{"id":4,"name":"c++"}]
+[
+  {
+    "id": 1,
+    "name": "Java"
+  },
+  {
+    "id": 2,
+    "name": "SQL"
+  },
+  {
+    "id": 3,
+    "name": "Python"
+  },
+  {
+    "id": 4,
+    "name": "c++"
+  }
+]

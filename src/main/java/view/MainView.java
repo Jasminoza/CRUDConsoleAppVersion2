@@ -9,8 +9,8 @@ public class MainView {
     private final Scanner sc = new Scanner(System.in);
 
     public void mainMenu() {
-        String choice = "";
 
+        String choice = "";
         while (!choice.equals("0")) {
             System.out.println("""
                     \nHello. Enter a digit from the following:\s
@@ -19,7 +19,7 @@ public class MainView {
                     3. to add a developer.               13. to add a skill.\s                23. to add a specialty.\s
                     4. to delete a developer.            14. to delete a skill.\s             24. to delete a specialty.\s
                     5. to update developer.              15. to update a skill.\s             25. to update a specialty.\s
-                    
+                                        
                     0. to exit the program.
                     """);
             choice = sc.nextLine();
@@ -50,8 +50,5 @@ public class MainView {
                 default -> System.out.println("Please, enter a correct digit.");
             }
         }
-
     }
-
-
 }

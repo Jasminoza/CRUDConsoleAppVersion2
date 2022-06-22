@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: crudConsoleApp/changelog/changeset/create-table-skills.yaml
