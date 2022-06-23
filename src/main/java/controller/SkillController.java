@@ -3,11 +3,12 @@ package controller;
 import model.Skill;
 import repository.SkillRepository;
 import repository.gson.GsonSkillRepositoryImpl;
+import repository.postgresql.PostgresQLSkillRepositoryImpl;
 
 import java.util.List;
 
 public class SkillController {
-    private final SkillRepository skillRepository = new GsonSkillRepositoryImpl();
+    private final SkillRepository skillRepository = new PostgresQLSkillRepositoryImpl();
 
     public Skill createSkill(String name) {
         Skill skill = new Skill();
