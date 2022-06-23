@@ -1,6 +1,7 @@
-package repository.postgresql;
+package service;
 
 import org.junit.*;
+import service.ConnectionToDB;
 
 import java.sql.Connection;
 import java.sql.SQLException;

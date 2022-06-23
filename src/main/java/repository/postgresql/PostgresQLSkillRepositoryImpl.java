@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static repository.postgresql.ConnectionToDB.connection;
+import static service.ConnectionToDB.connection;
 
 public class PostgresQLSkillRepositoryImpl implements SkillRepository {
     private static Statement statement;
