@@ -2,20 +2,19 @@ package repository.postgresql;
 
 import model.Skill;
 import repository.SkillRepository;
+import service.ConnectionToPostgreSQL;
+import service.ResultSetConverter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-
-import static service.ConnectionToDB.connection;
 
 public class PostgresQLSkillRepositoryImpl implements SkillRepository {
     private static Statement statement;
     static {
         try {
-            statement = connection.createStatement();
+            statement = ConnectionToPostgreSQL.getConnection().createStatement();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -23,18 +22,12 @@ public class PostgresQLSkillRepositoryImpl implements SkillRepository {
 
     @Override
     public List<Skill> getAll() {
-        List<Skill> allSkills = new ArrayList<>();
-        ResultSet resultSet;
+        List<Skill> allSkills;
 
-        String SQL = "SELECT * FROM skills";
         try {
-             resultSet = statement.executeQuery(SQL);
-            while (resultSet.next()) {
-                Skill skill = new Skill();
-                skill.setId(resultSet.getLong("id"));
-                skill.setName(resultSet.getString("name"));
-                allSkills.add(skill);
-            }
+            String SQL = "SELECT * FROM skills";
+            ResultSet resultSet = statement.executeQuery(SQL);
+            allSkills = ResultSetConverter.convertToSkills(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
