@@ -2,22 +2,34 @@ package controller;
 
 import model.Skill;
 import repository.SkillRepository;
-import repository.gson.GsonSkillRepositoryImpl;
-import repository.postgresql.PostgresQLSkillRepositoryImpl;
+//import repository.gson.GsonSkillRepositoryImpl;
+import repository.mysql.MySQLSkillRepository;
+import service.ResultSetConverter;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class SkillController {
-    private final SkillRepository skillRepository = new PostgresQLSkillRepositoryImpl();
+    private final SkillRepository skillRepository = new MySQLSkillRepository();
+
 
     public Skill createSkill(String name) {
         Skill skill = new Skill();
         skill.setName(name);
-        return skillRepository.create(skill);
+        try {
+            return ResultSetConverter.convertToSkill(skillRepository.create(skill));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<Skill> getAllSkills() {
-        return skillRepository.getAll();
+        try {
+            return ResultSetConverter.convertToSkillsList(skillRepository.getAll());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteSkill(Long id) {
@@ -30,6 +42,10 @@ public class SkillController {
     }
 
     public Skill getById(Long id) {
-        return skillRepository.getById(id);
+        try {
+            return ResultSetConverter.convertToSkill(skillRepository.getById(id));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

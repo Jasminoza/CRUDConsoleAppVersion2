@@ -1,6 +1,12 @@
 package model;
 
-public class Specialty  {
+public class Specialty {
+    private Long id;
+    private String name;
+
+    public Specialty() {
+    }
+
     public Specialty(Long id, String name) {
         this.id = id;
         this.name = name;
@@ -21,12 +27,4 @@ public class Specialty  {
     public void setName(String name) {
         this.name = name;
     }
-
-    private Long id;
-    private String name;
-
-
-    public Specialty() {
-    }
-
 }
