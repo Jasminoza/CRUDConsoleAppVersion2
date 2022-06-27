@@ -28,55 +28,18 @@ public class MySQLSkillRepository implements SkillRepository {
         return sendQueryToDB(SQL);
     }
 
-    @Override
-    public ResultSet create(Skill skill) {
-        insertSkill(skill);
-        return insertedSkill(skill);
-    }
-
-    @Override
-    public ResultSet getById(Long id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id=?");
-            preparedStatement.setLong(1, id);
-            return preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public Skill update(Skill skill) {
-        List<Skill> allSkills;
-        try {
-            allSkills = ResultSetConverter.convertToSkillsList(getAll());
-            allSkills.stream()
-                    .filter(s -> s.getName().equals(skill.getName()))
-                    .forEach(s -> s.setName(skill.getName()));
-            updateSkill(skill);
-            return skill;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void delete(Long id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + tableName + " WHERE id=?");
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private static ResultSet sendQueryToDB(String SQL) {
         try {
             return statement.executeQuery(SQL);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public ResultSet create(Skill skill) {
+        insertSkill(skill);
+        return insertedSkill(skill);
     }
 
     private static void insertSkill(Skill skill) {
@@ -99,11 +62,35 @@ public class MySQLSkillRepository implements SkillRepository {
         }
     }
 
-    private static void updateSkill(Skill skill) {
+    @Override
+    public ResultSet getById(Long id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id=?");
+            preparedStatement.setLong(1, id);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Skill update(Skill skill) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + tableName + " SET name=? WHERE id=?");
             preparedStatement.setString(1, skill.getName());
             preparedStatement.setLong(2, skill.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return skill;
+    }
+
+    @Override
+    public void delete(Long id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + tableName + " WHERE id=?");
+            preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
