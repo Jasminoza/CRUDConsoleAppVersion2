@@ -2,14 +2,12 @@ package controller;
 
 import model.Specialty;
 import repository.SpecialtyRepository;
-import repository.mysql.MySQLSpecialtyRepository;
-import utils.ResultSetConverter;
+import repository.mysql.MySQLSpecialtyRepositoryImpl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class SpecialtyController {
-    private final SpecialtyRepository specialtyRepository = new MySQLSpecialtyRepository();
+    private final SpecialtyRepository specialtyRepository = new MySQLSpecialtyRepositoryImpl();
 
     public Specialty createSpecialty(String name) {
         Specialty specialty = new Specialty();

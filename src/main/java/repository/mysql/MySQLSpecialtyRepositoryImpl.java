@@ -1,7 +1,7 @@
 package repository.mysql;
 
-import model.Skill;
-import repository.SkillRepository;
+import model.Specialty;
+import repository.SpecialtyRepository;
 import utils.ConnectionToMySQL;
 import utils.ResultSetConverter;
 
@@ -11,73 +11,71 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MySQLSkillRepository implements SkillRepository {
-    private static final Connection connection;
-    private static final String tableName = "skills";
+public class MySQLSpecialtyRepositoryImpl implements SpecialtyRepository {
 
-    static {
-        connection = ConnectionToMySQL.getConnection();
-    }
+    private static final Connection connection = ConnectionToMySQL.getConnection();
+    private static final String tableName = "specialties";
 
     @Override
-    public List<Skill> getAll() {
+    public List<Specialty> getAll() {
         try {
             String SQL = "SELECT * FROM " + tableName;
             ResultSet resultSet = connection.createStatement().executeQuery(SQL);
-            return ResultSetConverter.convertToSkillsList(resultSet);
+            return ResultSetConverter.convertToSpecialtiesList(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Skill create(Skill skill) {
-        insertSkill(skill);
-        return getByName(skill.getName());
+    public Specialty create(Specialty specialty) {
+        insertSpecialty(specialty);
+        return getByName(specialty.getName());
     }
 
-    private static void insertSkill(Skill skill) {
+    private static void insertSpecialty(Specialty specialty) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + tableName + "(name) VALUES(?)");
-            preparedStatement.setString(1, skill.getName());
+            preparedStatement.setString(1, specialty.getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static Skill getByName(String name) {
+    private static Specialty getByName(String name) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE name=?");
             preparedStatement.setString(1, name);
-            return ResultSetConverter.convertToSkill(preparedStatement.executeQuery());
+            return ResultSetConverter.convertToSpecialty(preparedStatement.executeQuery());
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
     }
 
+
     @Override
-    public Skill getById(Long id) {
+    public Specialty getById(Long id) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id=?");
             preparedStatement.setLong(1, id);
-            return ResultSetConverter.convertToSkill(preparedStatement.executeQuery());
+            return ResultSetConverter.convertToSpecialty(preparedStatement.executeQuery());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Skill update(Skill skill) {
+    public Specialty update(Specialty specialty) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + tableName + " SET name=? WHERE id=?");
-            preparedStatement.setString(1, skill.getName());
-            preparedStatement.setLong(2, skill.getId());
+            preparedStatement.setString(1, specialty.getName());
+            preparedStatement.setLong(2, specialty.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return getByName(skill.getName());
+        return getByName(specialty.getName());
     }
 
     @Override

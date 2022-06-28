@@ -2,12 +2,12 @@ package controller;
 
 import model.Skill;
 import repository.SkillRepository;
-import repository.mysql.MySQLSkillRepository;
+import repository.mysql.MySQLSkillRepositoryImpl;
 
 import java.util.List;
 
 public class SkillController {
-    private final SkillRepository skillRepository = new MySQLSkillRepository();
+    private final SkillRepository skillRepository = new MySQLSkillRepositoryImpl();
 
     public Skill createSkill(String name) {
         Skill skill = new Skill();
