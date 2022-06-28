@@ -7,22 +7,23 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionToMySQL extends ConnectionImpl {
-    private static ConnectionToMySQL connectionToMySQL;
+    private static Connection connectionToMySQL;
 
     private ConnectionToMySQL() {
-        try {
-            String databaseUrl = "jdbc:mysql://localhost:3306/CRUDApplicationMySQL";
-            String user = "root@localhost";
-            String password = "Java22!mysql";
-            connectionToMySQL = (ConnectionToMySQL) DriverManager.getConnection(databaseUrl, user, password);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public static synchronized Connection getConnection() {
         if (connectionToMySQL == null) {
-            connectionToMySQL = new ConnectionToMySQL();
+            try {
+                String jdbcDriver = "com.mysql.cj.jdbc.Driver";
+                String databaseUrl = "jdbc:mysql://localhost:3306/CRUDApplicationMySQL";
+                String user = "root@localhost";
+                String password = "Java22!mysql";
+                Class.forName(jdbcDriver);
+                connectionToMySQL = DriverManager.getConnection(databaseUrl, user, password);
+            } catch (SQLException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
         return connectionToMySQL;
     }

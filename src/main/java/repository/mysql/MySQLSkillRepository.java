@@ -5,12 +5,19 @@ import repository.SkillRepository;
 import utils.ConnectionToMySQL;
 import utils.ResultSetConverter;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class MySQLSkillRepository implements SkillRepository {
-    private static final Connection connection = ConnectionToMySQL.getConnection();
+    private static final Connection connection;
     private static final String tableName = "skills";
+
+    static {
+        connection = ConnectionToMySQL.getConnection();
+    }
 
     @Override
     public List<Skill> getAll() {
