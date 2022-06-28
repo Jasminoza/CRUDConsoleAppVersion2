@@ -31,6 +31,15 @@ public class ResultSetConverter {
         return allSkills;
     }
 
+    public static Specialty convertToSpecialty(ResultSet resultSet) throws SQLException{
+        if (resultSet.isBeforeFirst()) {
+            resultSet.next();
+        }
+        Specialty specialty = new Specialty();
+        specialty.setId(resultSet.getLong("id"));
+        specialty.setName(resultSet.getString("name"));
+        return specialty;
+    }
 
     public static List<Specialty> convertToSpecialtiesList(ResultSet resultSet) throws SQLException {
         List<Specialty> allSpecialties = new ArrayList<>();
