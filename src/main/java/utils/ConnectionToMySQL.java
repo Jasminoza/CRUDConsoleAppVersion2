@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionToMySQL extends ConnectionImpl {;
+public class ConnectionToMySQL extends ConnectionImpl {
     private static ConnectionToMySQL connectionToMySQL;
 
     private ConnectionToMySQL() {
