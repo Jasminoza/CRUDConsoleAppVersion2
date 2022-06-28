@@ -1,6 +1,7 @@
 package service;
 
 import org.junit.Test;
+import utils.ConnectionToMySQL;
 
 import java.sql.Connection;
 import java.sql.SQLException;

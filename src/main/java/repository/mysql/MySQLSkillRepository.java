@@ -2,44 +2,31 @@ package repository.mysql;
 
 import model.Skill;
 import repository.SkillRepository;
-import service.ConnectionToMySQL;
-import service.ResultSetConverter;
+import utils.ConnectionToMySQL;
+import utils.ResultSetConverter;
 
 import java.sql.*;
 import java.util.List;
 
 public class MySQLSkillRepository implements SkillRepository {
-    private static final Connection connection;
-    private static final Statement statement;
+    private static final Connection connection = ConnectionToMySQL.getConnection();
     private static final String tableName = "skills";
 
-    static {
+    @Override
+    public List<Skill> getAll() {
         try {
-            connection = ConnectionToMySQL.getConnection();
-            statement = connection.createStatement();
+            String SQL = "SELECT * FROM " + tableName;
+            ResultSet resultSet = connection.createStatement().executeQuery(SQL);
+            return ResultSetConverter.convertToSkillsList(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public ResultSet getAll() {
-        String SQL = "SELECT * FROM " + tableName;
-        return sendQueryToDB(SQL);
-    }
-
-    private static ResultSet sendQueryToDB(String SQL) {
-        try {
-            return statement.executeQuery(SQL);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public ResultSet create(Skill skill) {
+    public Skill create(Skill skill) {
         insertSkill(skill);
-        return insertedSkill(skill);
+        return getByName(skill.getName());
     }
 
     private static void insertSkill(Skill skill) {
@@ -52,22 +39,22 @@ public class MySQLSkillRepository implements SkillRepository {
         }
     }
 
-    private static ResultSet insertedSkill(Skill skill) {
+    private static Skill getByName(String name) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE name=?");
-            preparedStatement.setString(1, skill.getName());
-            return preparedStatement.executeQuery();
+            preparedStatement.setString(1, name);
+            return ResultSetConverter.convertToSkill(preparedStatement.executeQuery());
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
     }
 
     @Override
-    public ResultSet getById(Long id) {
+    public Skill getById(Long id) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id=?");
             preparedStatement.setLong(1, id);
-            return preparedStatement.executeQuery();
+            return ResultSetConverter.convertToSkill(preparedStatement.executeQuery());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -83,7 +70,7 @@ public class MySQLSkillRepository implements SkillRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return skill;
+        return getByName(skill.getName());
     }
 
     @Override

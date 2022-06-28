@@ -4,9 +4,8 @@ import model.Skill;
 import repository.SkillRepository;
 //import repository.gson.GsonSkillRepositoryImpl;
 import repository.mysql.MySQLSkillRepository;
-import service.ResultSetConverter;
+import utils.ResultSetConverter;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 

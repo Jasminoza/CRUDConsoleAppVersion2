@@ -2,9 +2,7 @@ package view;
 
 import controller.SkillController;
 import model.Skill;
-import service.ResultSetConverter;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class SkillView {

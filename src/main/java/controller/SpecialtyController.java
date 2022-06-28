@@ -3,7 +3,7 @@
 //import model.Specialty;
 //import repository.SpecialtyRepository;
 //import repository.gson.GsonSpecialtyRepositoryImpl;
-//import service.ResultSetConverter;
+//import utils.ResultSetConverter;
 //
 //import java.sql.SQLException;
 //import java.util.List;

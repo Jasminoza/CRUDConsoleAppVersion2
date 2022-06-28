@@ -2,12 +2,12 @@ package repository;
 
 import model.Specialty;
 
-import java.sql.ResultSet;
+import java.util.List;
 
 public interface SpecialtyRepository extends GenericRepository<Specialty, Long> {
-    ResultSet getAll();
-    ResultSet create(Specialty specialty);
-    ResultSet getById(Long id);
+    List<Specialty> getAll();
+    Specialty create(Specialty specialty);
+    Specialty getById(Long id);
     Specialty update(Specialty specialty);
     void delete(Long id);
 }
