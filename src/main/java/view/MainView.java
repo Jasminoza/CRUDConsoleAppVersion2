@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class MainView {
     private final SkillView skillView = new SkillView();
-//    private final SpecialtyView specialtyView = new SpecialtyView();
+    private final SpecialtyView specialtyView = new SpecialtyView();
 //    private final DeveloperView developerView = new DeveloperView();
     private final Scanner sc = new Scanner(System.in);
 
@@ -37,11 +37,11 @@ public class MainView {
                 case "14" -> skillView.deleteSkill();
                 case "15" -> skillView.updateSkill();
 
-//                case "21" -> specialtyView.showAllSpecialties();
-//                case "22" -> specialtyView.getById();
-//                case "23" -> specialtyView.createSpecialty();
-//                case "24" -> specialtyView.deleteSpecialty();
-//                case "25" -> specialtyView.updateSpecialty();
+                case "21" -> specialtyView.showAllSpecialties();
+                case "22" -> specialtyView.getById();
+                case "23" -> specialtyView.createSpecialty();
+                case "24" -> specialtyView.deleteSpecialty();
+                case "25" -> specialtyView.updateSpecialty();
 
                 case "0" -> {
                     System.out.println("Goodbye.");
