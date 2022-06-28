@@ -12,12 +12,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class MySQLSkillRepositoryImpl implements SkillRepository {
-    private static final Connection connection;
+    private static final Connection connection = ConnectionToMySQL.getConnection();;
     private static final String tableName = "skills";
-
-    static {
-        connection = ConnectionToMySQL.getConnection();
-    }
 
     @Override
     public List<Skill> getAll() {
