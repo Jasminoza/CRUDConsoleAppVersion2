@@ -1,6 +1,5 @@
 package repository;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 public interface GenericRepository<T, ID> {

@@ -18,9 +18,8 @@ public class MySQLSpecialtyRepositoryImpl implements SpecialtyRepository {
 
     @Override
     public List<Specialty> getAll() {
-        try {
-            String SQL = "SELECT * FROM " + tableName;
-            ResultSet resultSet = connection.createStatement().executeQuery(SQL);
+        String SQL = "SELECT * FROM " + tableName;
+        try (ResultSet resultSet = connection.createStatement().executeQuery(SQL)) {
             return ResultSetConverter.convertToSpecialtiesList(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -34,8 +33,8 @@ public class MySQLSpecialtyRepositoryImpl implements SpecialtyRepository {
     }
 
     private static void insertSpecialty(Specialty specialty) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + tableName + "(name) VALUES(?)");
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("INSERT INTO " + tableName + "(name) VALUES(?)")) {
             preparedStatement.setString(1, specialty.getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -44,8 +43,8 @@ public class MySQLSpecialtyRepositoryImpl implements SpecialtyRepository {
     }
 
     private static Specialty getByName(String name) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE name=?");
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM " + tableName + " WHERE name=?")) {
             preparedStatement.setString(1, name);
             return ResultSetConverter.convertToSpecialty(preparedStatement.executeQuery());
         } catch (SQLException ex) {
@@ -56,8 +55,8 @@ public class MySQLSpecialtyRepositoryImpl implements SpecialtyRepository {
 
     @Override
     public Specialty getById(Long id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id=?");
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM " + tableName + " WHERE id=?")) {
             preparedStatement.setLong(1, id);
             return ResultSetConverter.convertToSpecialty(preparedStatement.executeQuery());
         } catch (SQLException e) {
@@ -67,8 +66,8 @@ public class MySQLSpecialtyRepositoryImpl implements SpecialtyRepository {
 
     @Override
     public Specialty update(Specialty specialty) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + tableName + " SET name=? WHERE id=?");
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("UPDATE " + tableName + " SET name=? WHERE id=?")) {
             preparedStatement.setString(1, specialty.getName());
             preparedStatement.setLong(2, specialty.getId());
             preparedStatement.executeUpdate();
@@ -80,8 +79,8 @@ public class MySQLSpecialtyRepositoryImpl implements SpecialtyRepository {
 
     @Override
     public void delete(Long id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + tableName + " WHERE id=?");
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("DELETE FROM " + tableName + " WHERE id=?")) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
