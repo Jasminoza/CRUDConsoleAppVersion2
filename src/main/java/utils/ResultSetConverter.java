@@ -1,6 +1,5 @@
 package utils;
 
-import controller.SpecialtyController;
 import model.Developer;
 import model.Skill;
 import model.Specialty;
@@ -12,10 +11,7 @@ import repository.mysql.MySQLDeveloperRepositoryImpl;
 import repository.mysql.MySQLSkillRepositoryImpl;
 import repository.mysql.MySQLSpecialtyRepositoryImpl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,13 +72,13 @@ public class ResultSetConverter {
         developer.setId(resultSet.getLong("id"));
         developer.setFirstName(resultSet.getString("firstName"));
         developer.setLastName(resultSet.getString("lastName"));
-        developer.setSpecialty(specialtyRepository.getById(resultSet.getLong("id")));
-        developer.setStatus(ResultSetConverter.convertToStatus(resultSet));
-        developer.setSkills(getSkillsListByDeveloper(developer));
+        developer.setSpecialty(specialtyRepository.getById(resultSet.getLong("specialty")));
+        developer.setStatus(Status.getStatusById(resultSet.getLong("status")));
+        //developer.setSkills(getSkillsListByDeveloper(developer));
         return developer;
     }
 
-    public static List<Developer> convertToDevelopersList(ResultSet resultSet) throws SQLException {
+    public static List<Developer> convertToDevelopersListWithoutSkills(ResultSet resultSet) throws SQLException {
         List<Developer> allDevelopers = new ArrayList<>();
         while (resultSet.next()) {
             Developer developer = convertToDeveloper(resultSet);
@@ -103,21 +99,18 @@ public class ResultSetConverter {
 
         try (Connection connection = ConnectionToMySQL.getConnection();
                 PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM developersSkills WHERE skill_ID=?")) {
+                     connection.prepareStatement("SELECT * FROM developersSkills " +
+                             "WHERE developer_ID=?")) {
             preparedStatement.setLong(1, developer.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            resultSet.last();
-            int resultSetSize = resultSet.getRow();
-            resultSet.first();
-
-            for (int i = 0; i < resultSetSize; i++) {
-                developersSkills.add(skillRepository.getById(resultSet.getLong("id")));
+            while (resultSet.next()) {
+                developersSkills.add(skillRepository.getById(resultSet.getLong("skill_id")));
             }
 
-            return developersSkills;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return developersSkills;
     }
 }

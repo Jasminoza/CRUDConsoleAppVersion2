@@ -14,17 +14,45 @@ import java.util.List;
 
 public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
     private static final Connection connection = ConnectionToMySQL.getConnection();
+    private static final SkillRepository skillRepository = new MySQLSkillRepositoryImpl();
     private static final String tableName = "developers";
 
     @Override
     public List<Developer> getAll() {
-        try (PreparedStatement preparedStatement =
+        List<Developer> developerList;
+        try (PreparedStatement psDevelopersListWithoutSkills =
                      connection.prepareStatement("SELECT * FROM " + tableName)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return ResultSetConverter.convertToDevelopersList(resultSet);
+            ResultSet rsDevelopersWithoutSkills = psDevelopersListWithoutSkills.executeQuery();
+            developerList = ResultSetConverter.convertToDevelopersListWithoutSkills(rsDevelopersWithoutSkills);
+
+            PreparedStatement psSkillsForEachDeveloper =
+                    connection.prepareStatement("SELECT * FROM developers_Skills");
+            ResultSet rsSkillsForEachDeveloper = psSkillsForEachDeveloper.executeQuery();
+
+            insertSkillsForEachDeveloper(developerList, rsSkillsForEachDeveloper);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return developerList;
+    }
+
+    private static List<Developer> insertSkillsForEachDeveloper(List<Developer> developerList, ResultSet rsSkillsForEachDeveloper) throws SQLException {
+        while (rsSkillsForEachDeveloper.next()) {
+            Long developerID = rsSkillsForEachDeveloper.getLong("developer_ID");
+            Long skillID = rsSkillsForEachDeveloper.getLong("skill_ID");
+            for (Developer developer : developerList) {
+                if (developer.getId().equals(developerID)) {
+                    if (developer.getSkills() != null) {
+                        developer.getSkills().add(skillRepository.getById(skillID));
+                    } else {
+                        developer.setSkills(new ArrayList<>());
+                        developer.getSkills().add(skillRepository.getById(skillID));
+                    }
+                }
+            }
+        }
+        return developerList;
     }
 
     @Override
@@ -40,7 +68,7 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
             psInsertDeveloper.setLong(4, Status.ACTIVE.getId());
             psInsertDeveloper.executeUpdate();
             try (ResultSet keys = psInsertDeveloper.getGeneratedKeys()) {
-                while(keys.next()) {
+                while (keys.next()) {
                     developer.setId((long) keys.getInt(1));
                 }
             }
@@ -48,9 +76,9 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
             throw new RuntimeException(ex);
         }
 
-        try(PreparedStatement psInsertDevelopersSkills =
-                    connection.prepareStatement("INSERT INTO developersSkills" +
-                            "(developer_ID, skill_ID) VALUES(?, ?)")) {
+        try (PreparedStatement psInsertDevelopersSkills =
+                     connection.prepareStatement("INSERT INTO developers_Skills" +
+                             "(developer_ID, skill_ID) VALUES(?, ?)")) {
             long developerId = developer.getId();
             for (int i = 0; i < developer.getSkills().size(); i++) {
                 psInsertDevelopersSkills.setLong(1, developerId);
