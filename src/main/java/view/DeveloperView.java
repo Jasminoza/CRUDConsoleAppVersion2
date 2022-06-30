@@ -176,21 +176,22 @@ public class DeveloperView {
         boolean idIsCorrect = false;
         Long id;
 
-        if (developerController.getAllDevelopers() == null && developerController.getAllDevelopers().size() == 0) {
+        if (developerController.getAllDevelopers() == null &&
+                developerController.getAllDevelopers().size() == 0) {
             System.out.println("Developers list is empty.");
         } else {
             showAllDevelopers();
             System.out.println("Please, enter the ID of the developer you want to view: ");
-
             while (!idIsCorrect) {
                 try {
                     id = Long.parseLong(scanner.nextLine());
                     final Long finalId = id;
                     if (developerController.getAllDevelopers().stream().anyMatch(s -> s.getId().equals(finalId))) {
                         idIsCorrect = true;
-                        System.out.println("id: " + developerController.getById(id).getId() + ", first name: " + developerController.getById(id).getFirstName()
-                                + ", last name: " + developerController.getById(id).getLastName() + ", skills: " + developerController.getById(id).showSkills(developerController.getById(id).getSkills())
-                                + "specialty: " + developerController.getById(id).getSpecialty().getName() + ", status: " + developerController.getById(id).getStatus().toString());
+                        developerController.getAllDevelopers().stream().filter(s -> s.getId().equals(finalId))
+                                .forEach(dev -> System.out.println("id: " + dev.getId() + ", first name: " + dev.getFirstName()
+                                        + ", last name: " + dev.getLastName() + ", skills: " + dev.showSkills(dev.getSkills())
+                                        + "specialty: " + dev.getSpecialty().getName() + ", status: " + dev.getStatus().toString()));
                     } else {
                         System.out.println("There is no developer with such id. Please, try again.");
                     }
