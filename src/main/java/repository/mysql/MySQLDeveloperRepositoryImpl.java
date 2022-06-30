@@ -38,16 +38,16 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
             psInsertDeveloper.setLong(3, (developer.getSpecialty().getId()));
             psInsertDeveloper.setLong(4, Status.ACTIVE.getId());
             psInsertDeveloper.executeUpdate();
+            try (ResultSet keys = psInsertDeveloper.getGeneratedKeys()) {
+                keys.next();
+                developer.setId(keys.getLong("id"));
+            }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
 
 //            developer.setId(getDeveloperIdByDeveloper(developer));
 
-            try (ResultSet keys = psInsertDeveloper.getGeneratedKeys()) {
-                keys.next();
-                developer.setId(keys.getLong("id"));
-            }
 
         try(PreparedStatement psInsertDevelopersSkills =
                     connection.prepareStatement("INSERT INTO developersSkills" +
