@@ -18,8 +18,9 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
 
     @Override
     public List<Developer> getAll() {
-        String SQL = "SELECT * FROM " + tableName;
-        try (ResultSet resultSet = connection.createStatement().executeQuery(SQL)) {
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM " + tableName)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
             return ResultSetConverter.convertToDevelopersList(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -39,15 +40,13 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
             psInsertDeveloper.setLong(4, Status.ACTIVE.getId());
             psInsertDeveloper.executeUpdate();
             try (ResultSet keys = psInsertDeveloper.getGeneratedKeys()) {
-                keys.next();
-                developer.setId(keys.getLong("id"));
+                while(keys.next()) {
+                    developer.setId((long) keys.getInt(1));
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-
-//            developer.setId(getDeveloperIdByDeveloper(developer));
-
 
         try(PreparedStatement psInsertDevelopersSkills =
                     connection.prepareStatement("INSERT INTO developersSkills" +
@@ -65,26 +64,6 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
 
 
         return developer;
-    }
-
-    public Long getDeveloperIdByDeveloper(Developer developer) {
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement(
-                             "SELECT * FROM " + tableName +
-                                     " WHERE firstName=? and lastName=?" +
-                                     " and specialty=? and status=?")) {
-            preparedStatement.setString(1, developer.getFirstName());
-            preparedStatement.setString(2, developer.getLastName());
-            preparedStatement.setLong(3, developer.getSpecialty().getId());
-            preparedStatement.setLong(4, developer.getStatus().getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.isBeforeFirst()) {
-                resultSet.next();
-            }
-            return ResultSetConverter.convertToDeveloper(resultSet).getId();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

@@ -84,15 +84,10 @@ public class ResultSetConverter {
 
     public static List<Developer> convertToDevelopersList(ResultSet resultSet) throws SQLException {
         List<Developer> allDevelopers = new ArrayList<>();
-        if (resultSet.isBeforeFirst()) {
-            resultSet.next();
-        }
-
         while (resultSet.next()) {
             Developer developer = convertToDeveloper(resultSet);
             allDevelopers.add(developer);
         }
-
         return allDevelopers;
     }
 
