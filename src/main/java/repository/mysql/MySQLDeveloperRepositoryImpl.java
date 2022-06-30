@@ -104,7 +104,37 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
 
     @Override
     public Developer update(Developer developer) {
-        return null;
+        try (PreparedStatement psInsertDeveloper =
+                     connection.prepareStatement("UPDATE " + tableName +
+                             " SET firstName=?, lastName=?, specialty=? where id=?")) {
+
+            psInsertDeveloper.setString(1, developer.getFirstName());
+            psInsertDeveloper.setString(2, developer.getLastName());
+            psInsertDeveloper.setLong(3, (developer.getSpecialty().getId()));
+            psInsertDeveloper.setLong(4, developer.getId());
+            psInsertDeveloper.executeUpdate();
+
+            try (PreparedStatement psDeleteOldDevelopersSkills =
+                         connection.prepareStatement("DELETE FROM developers_Skills where developer_id=?")) {
+                psDeleteOldDevelopersSkills.setLong(1, developer.getId());
+                psDeleteOldDevelopersSkills.executeUpdate();
+
+                try (PreparedStatement psInsertDevelopersSkills =
+                             connection.prepareStatement("INSERT INTO developers_Skills" +
+                                     "(developer_ID, skill_ID) VALUES(?, ?)")) {
+                    long developerId = developer.getId();
+                    for (int i = 0; i < developer.getSkills().size(); i++) {
+                        psInsertDevelopersSkills.setLong(1, developerId);
+                        psInsertDevelopersSkills.setLong(2, developer.getSkills().get(i).getId());
+                        psInsertDevelopersSkills.executeUpdate();
+                        psInsertDevelopersSkills.clearParameters();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return developer;
     }
 
     @Override
