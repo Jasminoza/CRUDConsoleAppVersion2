@@ -31,7 +31,7 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
         try (PreparedStatement psInsertDeveloper =
                      connection.prepareStatement("INSERT INTO " + tableName +
                              "(firstName, lastName, specialty, status) " +
-                             "VALUES(?, ?, ?, ?)")) {
+                             "VALUES(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
 
             psInsertDeveloper.setString(1, developer.getFirstName());
             psInsertDeveloper.setString(2, developer.getLastName());
