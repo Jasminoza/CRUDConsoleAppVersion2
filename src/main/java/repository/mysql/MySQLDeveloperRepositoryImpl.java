@@ -1,7 +1,6 @@
 package repository.mysql;
 
 import model.Developer;
-import model.Skill;
 import model.Status;
 import repository.DeveloperRepository;
 import repository.SkillRepository;
@@ -35,7 +34,7 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
         return developerList;
     }
 
-    private static List<Developer> insertSkillsForEachDeveloper(List<Developer> developerList, ResultSet rsSkillsForEachDeveloper) throws SQLException {
+    private static void insertSkillsForEachDeveloper(List<Developer> developerList, ResultSet rsSkillsForEachDeveloper) throws SQLException {
         while (rsSkillsForEachDeveloper.next()) {
             Long developerID = rsSkillsForEachDeveloper.getLong("developer_ID");
             Long skillID = rsSkillsForEachDeveloper.getLong("skill_ID");
@@ -50,7 +49,6 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
                 }
             }
         }
-        return developerList;
     }
 
     @Override
