@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class MainView {
     private final SkillView skillView = new SkillView();
     private final SpecialtyView specialtyView = new SpecialtyView();
-//    private final DeveloperView developerView = new DeveloperView();
+    private final DeveloperView developerView = new DeveloperView();
     private final Scanner sc = new Scanner(System.in);
 
     public void mainMenu() {
@@ -25,11 +25,11 @@ public class MainView {
             choice = sc.nextLine();
             switch (choice) {
 
-//                case "1" -> developerView.showAllDevelopers();
-//                case "2" -> developerView.getById();
-//                case "3" -> developerView.createDeveloper();
-//                case "4" -> developerView.deleteDeveloper();
-//                case "5" -> developerView.updateDeveloper();
+                case "1" -> developerView.showAllDevelopers();
+                case "2" -> developerView.getById();
+                case "3" -> developerView.createDeveloper();
+                case "4" -> developerView.deleteDeveloper();
+                case "5" -> developerView.updateDeveloper();
 
                 case "11" -> skillView.showAllSkills();
                 case "12" -> skillView.getById();

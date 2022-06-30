@@ -1,5 +1,6 @@
 package repository.mysql;
 
+import model.Developer;
 import model.Skill;
 import repository.SkillRepository;
 import utils.ConnectionToMySQL;
@@ -32,7 +33,7 @@ public class MySQLSkillRepositoryImpl implements SkillRepository {
         return getByName(skill.getName());
     }
 
-    private static void insertSkill(Skill skill) {
+    private void insertSkill(Skill skill) {
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement("INSERT INTO " + tableName + "(name) VALUES(?)")) {
             preparedStatement.setString(1, skill.getName());
@@ -42,11 +43,21 @@ public class MySQLSkillRepositoryImpl implements SkillRepository {
         }
     }
 
-    private static Skill getByName(String name) {
+    private Skill getByName(String name) {
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM " + tableName + " WHERE name=?")) {
             preparedStatement.setString(1, name);
             return ResultSetConverter.convertToSkill(preparedStatement.executeQuery());
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private List<Skill> getByDeveloper(Developer developer) {
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM developersSkills WHERE id=?")) {
+            preparedStatement.setLong(1, developer.getId());
+            return ResultSetConverter.convertToSkillsList(preparedStatement.executeQuery());
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
