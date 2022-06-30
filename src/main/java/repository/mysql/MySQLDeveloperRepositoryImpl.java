@@ -28,9 +28,7 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
             PreparedStatement psSkillsForEachDeveloper =
                     connection.prepareStatement("SELECT * FROM developers_Skills");
             ResultSet rsSkillsForEachDeveloper = psSkillsForEachDeveloper.executeQuery();
-
             insertSkillsForEachDeveloper(developerList, rsSkillsForEachDeveloper);
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -89,8 +87,6 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-
-
         return developer;
     }
 
@@ -114,7 +110,7 @@ public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
     @Override
     public void delete(Long id) {
         try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("UPDATE " + tableName + "SET status=? WHERE id=?")) {
+                     connection.prepareStatement("UPDATE " + tableName + " SET status=? WHERE id=?")) {
             preparedStatement.setLong(1, Status.DELETED.getId());
             preparedStatement.setLong(2, id);
             preparedStatement.executeUpdate();
