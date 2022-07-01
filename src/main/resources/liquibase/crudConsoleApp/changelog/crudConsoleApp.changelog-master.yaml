@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: crudConsoleApp/changelog/changeset/create-table-skills.yaml
+  - include:
+      file: crudConsoleApp/changelog/changeset/create-table-specialties.yaml
+  - include:
+      file: crudConsoleApp/changelog/changeset/create-table-developers.yaml
+  - include:
+      file: crudConsoleApp/changelog/changeset/create-table-developers_Skills.yaml

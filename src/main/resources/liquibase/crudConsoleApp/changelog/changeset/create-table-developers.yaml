@@ -14,9 +14,21 @@ databaseChangeLog:
                 nullable: false
           - column:
               name: firstName
-              type: varchar(50)
+              type: varchar(200)
+              constrains:
+                nullable: false
           - column:
               name: lastName
-              type: varchar(50)
+              type: varchar(200)
+              constrains:
+                nullable: false
           - column:
-              name:
+              name: specialty
+              type: int
+              constrains:
+                nullable: false
+          - column:
+              name: status
+              type: int
+              constrains:
+                nullable: false

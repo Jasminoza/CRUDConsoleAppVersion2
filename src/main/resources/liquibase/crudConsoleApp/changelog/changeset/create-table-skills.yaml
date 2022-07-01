@@ -15,4 +15,4 @@ databaseChangeLog:
                   nullable: false
             - column:
                 name: name
-                type: varchar(50)
+                type: varchar(200)

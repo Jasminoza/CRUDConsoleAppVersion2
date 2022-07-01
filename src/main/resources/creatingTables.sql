@@ -1,3 +1,4 @@
+liquibase --username=test --password=test --changelog-file=<crudConsoleApp.changelog-master.yaml> status
 create TABLE `specialties` (
     `id` int NOT NULL AUTO_INCREMENT,
 	`name` varchar(255) NOT NULL,
