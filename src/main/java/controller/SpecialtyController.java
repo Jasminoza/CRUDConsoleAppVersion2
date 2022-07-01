@@ -1,35 +1,34 @@
 package controller;
 
 import model.Specialty;
-import repository.SpecialtyRepository;
-import repository.mysql.MySQLSpecialtyRepositoryImpl;
+import service.SpecialtyService;
 
 import java.util.List;
 
 public class SpecialtyController {
-    private final SpecialtyRepository specialtyRepository = new MySQLSpecialtyRepositoryImpl();
+    private final SpecialtyService specialtyService = new SpecialtyService();
 
     public Specialty createSpecialty(String name) {
         Specialty specialty = new Specialty();
         specialty.setName(name);
-        return specialtyRepository.create(specialty);
+        return specialtyService.create(specialty);
     }
 
     public List<Specialty> getAllSpecialties() {
-        return specialtyRepository.getAll();
+        return specialtyService.getAll();
     }
 
     public void deleteSpecialty(Long id) {
-        specialtyRepository.delete(id);
+        specialtyService.delete(id);
     }
 
     public Specialty updateSpecialty(Long id, String name) {
         Specialty specialty = new Specialty(id, name);
-        return specialtyRepository.update(specialty);
+        return specialtyService.update(specialty);
     }
 
     public Specialty getById(Long id) {
-        return specialtyRepository.getById(id);
+        return specialtyService.getById(id);
     }
 
 }

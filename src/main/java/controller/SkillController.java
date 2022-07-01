@@ -1,34 +1,33 @@
 package controller;
 
 import model.Skill;
-import repository.SkillRepository;
-import repository.mysql.MySQLSkillRepositoryImpl;
+import service.SkillService;
 
 import java.util.List;
 
 public class SkillController {
-    private final SkillRepository skillRepository = new MySQLSkillRepositoryImpl();
+    private final SkillService skillService = new SkillService();
 
     public Skill createSkill(String name) {
         Skill skill = new Skill();
         skill.setName(name);
-        return skillRepository.create(skill);
+        return skillService.create(skill);
     }
 
     public List<Skill> getAllSkills() {
-        return skillRepository.getAll();
+        return skillService.getAll();
     }
 
     public void deleteSkill(Long id) {
-        skillRepository.delete(id);
+        skillService.delete(id);
     }
 
     public Skill updateSkill(Long id, String name) {
         Skill skill = new Skill(id, name);
-        return skillRepository.update(skill);
+        return skillService.update(skill);
     }
 
     public Skill getById(Long id) {
-        return skillRepository.getById(id);
+        return skillService.getById(id);
     }
 }

@@ -4,19 +4,15 @@ import model.Developer;
 import model.Skill;
 import model.Specialty;
 import model.Status;
-import repository.DeveloperRepository;
-import repository.SkillRepository;
 import repository.SpecialtyRepository;
-import repository.mysql.MySQLDeveloperRepositoryImpl;
-import repository.mysql.MySQLSkillRepositoryImpl;
-import repository.mysql.MySQLSpecialtyRepositoryImpl;
+import repository.mysql.JDBCSpecialtyRepositoryImpl;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResultSetConverter {
-    private static final SpecialtyRepository specialtyRepository = new MySQLSpecialtyRepositoryImpl();
+    private static final SpecialtyRepository specialtyRepository = new JDBCSpecialtyRepositoryImpl();
 
     public static Skill convertToSkill(ResultSet resultSet) throws SQLException {
         if (resultSet.isBeforeFirst()) {

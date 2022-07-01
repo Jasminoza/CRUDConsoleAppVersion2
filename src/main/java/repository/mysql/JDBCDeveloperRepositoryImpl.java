@@ -11,9 +11,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySQLDeveloperRepositoryImpl implements DeveloperRepository {
+public class JDBCDeveloperRepositoryImpl implements DeveloperRepository {
     private static final Connection connection = ConnectionToMySQL.getConnection();
-    private static final SkillRepository skillRepository = new MySQLSkillRepositoryImpl();
+    private static final SkillRepository skillRepository = new JDBCSkillRepositoryImpl();
     private static final String tableName = "developers";
 
     @Override
