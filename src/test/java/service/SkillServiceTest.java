@@ -35,7 +35,7 @@ public class SkillServiceTest {
     }
 
     @Test
-    public void getById() {
+    public void checkGetById() {
         Skill skill = new Skill("Abrakadabra");
         skill = skillRepository.create(skill);
         Skill skillFromDB = skillRepository.getById(skill.getId());
@@ -44,7 +44,7 @@ public class SkillServiceTest {
     }
 
     @Test
-    public void update() {
+    public void checkUpdate() {
         Skill skill = new Skill("Abrakadabra");
         skill = skillRepository.create(skill);
         Skill skillFromDB = skillRepository.getById(skill.getId());
