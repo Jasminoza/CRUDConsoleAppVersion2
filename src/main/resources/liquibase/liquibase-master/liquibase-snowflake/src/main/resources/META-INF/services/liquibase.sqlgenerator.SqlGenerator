@@ -1,7 +1,0 @@
-liquibase.sqlgenerator.core.DropDefaultValueGeneratorSnowflake
-liquibase.sqlgenerator.core.DropProcedureGeneratorSnowflake
-liquibase.sqlgenerator.core.InsertOrUpdateGeneratorSnowflake
-liquibase.sqlgenerator.core.RenameTableGeneratorSnowflake
-liquibase.sqlgenerator.core.RenameViewGeneratorSnowflake
-liquibase.sqlgenerator.core.SetColumnRemarksGeneratorSnowflake
-liquibase.sqlgenerator.core.SetTableRemarksGeneratorSnowflake
