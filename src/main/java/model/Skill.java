@@ -3,7 +3,7 @@ package model;
 import java.util.Objects;
 
 /**
- * hashCode and equals method were overridden to id and name fields.
+ * hashCode and equals methods were overridden to id and name fields.
  */
 public class Skill {
 
