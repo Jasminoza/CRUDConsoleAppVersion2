@@ -1,5 +1,10 @@
 package model;
 
+import java.util.Objects;
+
+/**
+ * hashCode and equals method were overridden to id and name fields.
+ */
 public class Skill {
 
     private Long id;
@@ -8,6 +13,19 @@ public class Skill {
     public Skill(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Skill skill = (Skill) o;
+        return id.equals(skill.id) && name.equals(skill.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 
     public Skill() {

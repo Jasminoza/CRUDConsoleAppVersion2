@@ -5,7 +5,8 @@ import org.junit.Test;
 import repository.SkillRepository;
 import repository.mysql.JDBCSkillRepositoryImpl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class SkillServiceTest {
     private final SkillRepository skillRepository = new JDBCSkillRepositoryImpl();
@@ -35,13 +36,33 @@ public class SkillServiceTest {
 
     @Test
     public void getById() {
+        Skill skill = new Skill("Abrakadabra");
+        skill = skillRepository.create(skill);
+        Skill skillFromDB = skillRepository.getById(skill.getId());
+        assertEquals(skill, skillFromDB);
+        skillRepository.delete(skill.getId());
     }
 
     @Test
     public void update() {
+        Skill skill = new Skill("Abrakadabra");
+        skill = skillRepository.create(skill);
+        Skill skillFromDB = skillRepository.getById(skill.getId());
+        assertEquals(skill, skillFromDB);
+        skill.setName("Ahalaimahalai");
+        skillRepository.update(skill);
+        skillFromDB = skillRepository.getById(skill.getId());
+        assertEquals(skill, skillFromDB);
     }
 
-    @Test
-    public void delete() {
+    @Test(expected = RuntimeException.class)
+    public void checkDeleteFromDB() {
+        Skill skill = new Skill("Abrakadabra");
+        skill = skillRepository.create(skill);
+        int skillsCountBeforeDeletion = skillRepository.getAll().size();
+        skillRepository.delete(skill.getId());
+        int skillsCountAfterDeletion = skillRepository.getAll().size();
+        assertEquals(skillsCountBeforeDeletion - 1, skillsCountAfterDeletion);
+        skillRepository.getById(skill.getId());
     }
 }
