@@ -2,26 +2,58 @@ package service;
 
 import model.Skill;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import repository.SkillRepository;
-import repository.mysql.JDBCSkillRepositoryImpl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.given;
 
 public class SkillServiceTest {
-    private final SkillRepository skillRepository = new JDBCSkillRepositoryImpl();
+    @Mock
+    private SkillRepository skillRepository;
+    private SkillService skillService;
+    public SkillServiceTest() {
+        MockitoAnnotations.openMocks(this);
+        this.skillService = new SkillService(skillRepository);
+    }
 
     @Test
     public void checkGetAllReturnsNotNull() {
-        assertNotNull(skillRepository.getAll());
+        given(skillRepository.getAll()).willReturn(Arrays.asList(
+                new Skill("write code"),
+                new Skill("drink cofee"),
+                new Skill("sleep"),
+                new Skill("code review"))
+        );
+        List<Skill> skills = skillService.getAll();
+        assertNotNull(skills);
+        assertEquals(4, skills.size());
     }
 
+    @Test
+    public void checkGetAllReturnsNull() {
+        given(skillRepository.getAll()).willReturn(null);
+        List<Skill> skills = skillService.getAll();
+        assertNull(skills);
+    }
 
     @Test
     public void checkCreateReturnsNotNull() {
-        Skill skill = new Skill("Abrakadabra");
-        assertNotNull(skill = skillRepository.create(skill));
-        skillRepository.delete(skill.getId());
+        Skill skill = new Skill(5L, "Abrakadabra");
+
+        given(skillRepository.create(skill)).willReturn(skill);
+        given(skillRepository.getById(5L)).willReturn(skill);
+
+        Skill abrakadabra = skillService.create(new Skill(5L, "Abrakadabra"));
+
+        assertNotNull(abrakadabra);
+        assertEquals(Optional.of(5L), Optional.of(skillRepository.getById(abrakadabra.getId()).getId()));
+
     }
 
     @Test

@@ -1,12 +1,13 @@
 package controller;
 
 import model.Skill;
+import repository.mysql.JDBCSkillRepositoryImpl;
 import service.SkillService;
 
 import java.util.List;
 
 public class SkillController {
-    private final SkillService skillService = new SkillService();
+    private final SkillService skillService = new SkillService(new JDBCSkillRepositoryImpl());
 
     public Skill createSkill(String name) {
         Skill skill = new Skill();

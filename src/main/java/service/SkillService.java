@@ -7,7 +7,11 @@ import repository.mysql.JDBCSkillRepositoryImpl;
 import java.util.List;
 
 public class SkillService {
-    private final SkillRepository skillRepository = new JDBCSkillRepositoryImpl();
+    private SkillRepository skillRepository = new JDBCSkillRepositoryImpl();
+
+    public SkillService(SkillRepository skillRepository){
+        this.skillRepository = skillRepository;
+    }
 
     public List<Skill> getAll() {
         return skillRepository.getAll();

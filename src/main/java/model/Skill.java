@@ -15,6 +15,10 @@ public class Skill {
         this.name = name;
     }
 
+    public Skill(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -29,10 +33,6 @@ public class Skill {
     }
 
     public Skill() {
-    }
-
-    public Skill(String name) {
-        this.name = name;
     }
 
 
